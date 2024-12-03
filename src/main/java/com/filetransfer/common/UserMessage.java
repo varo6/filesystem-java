@@ -45,7 +45,3 @@ public class UserMessage extends Header {
     }
 }
 
-class UsuarioX{
-
-}
-
