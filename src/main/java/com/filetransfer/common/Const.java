@@ -7,9 +7,11 @@ public final class Const {
     }
 
     public static final int TYPE_HEADER = 0;
-    public static final int TYPE_USER=1;
-    public static final int TYPE_TEXT=2;
-    public static final int TYPE_CLOSE=3;
+    public static final int TYPE_USER = 1;
+    public static final int TYPE_TEXT = 2;
+    public static final int TYPE_CLOSE = 3;
+    public static final int TYPE_COMMAND = 4;
+
     public static final int INT_LENGTH = 4;
     public static final int DOUBLE_LENGTH = 8;
     public static final int CHAR_LENGTH = 2;

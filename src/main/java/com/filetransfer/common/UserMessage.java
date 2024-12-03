@@ -8,24 +8,24 @@ public class UserMessage extends Header {
 
     public UserMessage(String nombre, int dni) {
 
-        this.type = USER;
+        this.type = Const.TYPE_USER;
         this.nombre = nombre;
         this.dni = dni;
     }
     public UserMessage(int dni) {
 
-        this.type = USER;
+        this.type = Const.TYPE_USER;
         this.dni = dni;
     }
     public UserMessage(String nombre) {
 
-        this.type = USER;
+        this.type = Const.TYPE_USER;
         this.nombre = nombre;
 
     }
     public UserMessage() {
 
-        this.type = USER;
+        this.type = Const.TYPE_USER;
     }
 
     public int getDni() {
