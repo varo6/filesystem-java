@@ -9,20 +9,12 @@ import java.nio.ByteBuffer;
 public class Header implements Serializable {
     protected int type;
     protected int length;
-    protected static final int HEAD=0;
-    protected static final int USER=1;
-    protected static final int TEXT=2;
-    protected static final int CLOSE=3;
-    protected static final int INT = 4;
-    protected static final int DOUBLE = 8;
-    protected static final int CHAR = 2;
-    protected static final int HEADER_LENGTH = INT*2;
 
 
 
     public Header() {
-        this.length = HEADER_LENGTH;
-        this.type = HEAD;
+        this.length = Const.HEADER_LENGTH;
+        this.type = Const.TYPE_HEADER;
     }
 
     public byte[] pack() throws IOException {
@@ -40,7 +32,7 @@ public class Header implements Serializable {
 
         byteBuffer.flip();
 
-        byte[] self = new byte[HEADER_LENGTH];
+        byte[] self = new byte[Const.HEADER_LENGTH];
         byteBuffer.get(self);
 
         return self;

@@ -6,6 +6,6 @@ public class CloseMessage extends Header{
 
 
     public CloseMessage(int type, int length) {
-        this.type = CLOSE;
+        this.type = Const.TYPE_CLOSE;
     }
 }

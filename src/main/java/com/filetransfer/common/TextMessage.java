@@ -9,26 +9,26 @@ public class TextMessage extends Header{
 
     public TextMessage(int dni, String text) {
         super();
-        this.type = TEXT;
+        this.type = Const.TYPE_TEXT;
         this.dni = dni;
         this.text = text;
     }
 
     public TextMessage(int dni) {
         super();
-        this.type = TEXT;
+        this.type = Const.TYPE_TEXT;
         this.dni = dni;
     }
 
     public TextMessage(String text) {
         super();
-        this.type = TEXT;
+        this.type = Const.TYPE_TEXT;
         this.text = text;
     }
 
     public TextMessage() {
         super();
-        this.type = TEXT;
+        this.type = Const.TYPE_TEXT;
     }
 
     public int getDni() {
@@ -50,10 +50,10 @@ public class TextMessage extends Header{
     @Override
     public byte[] pack() throws IOException {
         //Antes de empaquetar el mensaje, se ha empaquetado la cabecera que indicará que es de tipo Text
-        length = INT+text.length()*CHAR;
-        byte[] self = new byte[INT*2+length];
+        length = Const.INT_LENGTH+text.length()*Const.CHAR_LENGTH;
+        byte[] self = new byte[Const.INT_LENGTH*2+length];
 
-        ByteBuffer byteBuffer = ByteBuffer.allocate(INT*2+length);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(Const.INT_LENGTH*2+length);
         byteBuffer.putInt(type);//El orden es importante que se mantenga
         byteBuffer.putInt(length);
         byteBuffer.putInt(getDni());
