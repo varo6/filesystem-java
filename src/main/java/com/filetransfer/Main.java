@@ -16,6 +16,7 @@ public class Main {
             case "--server":
             case "-s":
                 //Iniciamos servidor
+                ServerMain s = new ServerMain();
                 break;
             default:
                 System.out.println(
