@@ -1,4 +1,4 @@
-# filesystem-java-rmi
+# filesystem-java
 ## TODO checks
 
 ### La aplicación cliente permitirá:
