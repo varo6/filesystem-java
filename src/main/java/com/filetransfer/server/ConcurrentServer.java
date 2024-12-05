@@ -6,12 +6,13 @@ public class ConcurrentServer implements Runnable, Serializable {
 
     //PASAR A ENUMS
     private static final int MAX_THREADS = 10;
-    private static final int PORT = 12345;
+    private final int port;
     private ServerSocket serverSocket;
     private ExecutorService pool;
 
-    public ConcurrentServer() throws IOException {
-        this.serverSocket = new ServerSocket(PORT);
+    public ConcurrentServer(int port) throws IOException {
+        this.port = port;
+        this.serverSocket = new ServerSocket(port);
         this.pool = Executors.newFixedThreadPool(MAX_THREADS);
     }
 
@@ -21,7 +22,7 @@ public class ConcurrentServer implements Runnable, Serializable {
             while (true) {
                 Socket clientsocket = serverSocket.accept();
                 //VER QUE EJECUTAMOS POR HILO. CAMBIAR------------------
-                pool.execute(new FileServer());
+                pool.execute(new SimpleServer());
             }
         } catch (IOException e) {
             e.printStackTrace();
