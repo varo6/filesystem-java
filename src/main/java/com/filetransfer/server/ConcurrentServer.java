@@ -21,8 +21,14 @@ public class ConcurrentServer implements Runnable, Serializable {
         try {
             while (true) {
                 Socket clientsocket = serverSocket.accept();
-                //VER QUE EJECUTAMOS POR HILO. CAMBIAR------------------
-                pool.execute(new SimpleServer());
+                // lambda expression
+                pool.execute(() -> {
+                    try {
+                        new SimpleServer(clientsocket).run();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();

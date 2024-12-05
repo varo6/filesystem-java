@@ -1,6 +1,6 @@
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             System.out.println(
                 "Por favor, proporciona un argumento: --client o --server"
@@ -11,7 +11,7 @@ public class Main {
         switch (args[0]) {
             case "--client":
             case "-c":
-                //iniciar cliente
+                ClientMain c = new ClientMain();
                 break;
             case "--server":
             case "-s":

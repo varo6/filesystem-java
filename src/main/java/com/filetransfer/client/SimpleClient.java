@@ -3,8 +3,15 @@ import java.net.*;
 
 public class SimpleClient {
 
-    public void runClient(String host, int port)
-        throws UnknownHostException, IOException {
+    private final int port;
+    private final String host;
+
+    public SimpleClient(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
+
+    public void runClient() throws UnknownHostException, IOException {
         Socket socket = new Socket(host, port);
 
         try {
