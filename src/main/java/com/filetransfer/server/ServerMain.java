@@ -1,3 +1,5 @@
+package server;
+
 public class ServerMain {
 
     // Puerto por defecto de 8080 por si no se le pasa en el constructor.

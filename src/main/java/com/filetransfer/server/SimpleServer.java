@@ -1,5 +1,8 @@
+package server;
+
+
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 
 public class SimpleServer implements Runnable {
 
