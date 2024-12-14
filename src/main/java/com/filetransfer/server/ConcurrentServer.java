@@ -8,10 +8,10 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static common.Const.MAX_THREADS;
+
 public class ConcurrentServer implements Runnable, Serializable {
 
-    //PASAR A ENUMS
-    private static final int MAX_THREADS = 10;
     private final int port;
     private ServerSocket serverSocket;
     private ExecutorService pool;
