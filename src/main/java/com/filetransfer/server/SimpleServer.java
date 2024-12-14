@@ -31,7 +31,17 @@ public class SimpleServer implements Runnable {
                         break;
                     }
                     System.out.println("Echoing: " + str);
+                    /**
+                    * IMPLEMENTAR LECTURA DE COMANDOS AQUÍ
+                    *
+                    *
+                    * */
                     out.println(str);
+
+                    /**
+                     *
+                     * IMPLEMENTAR CUALQUIER MENSAJE DE SALIDA AQUÍ
+                     * */
                 }
             } catch (IOException e) {
                 e.printStackTrace();
