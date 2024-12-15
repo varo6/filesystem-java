@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FileSystem extends ContextManager {
+public class FileSystem{
     boolean noGui = false;
     boolean client;
     boolean server;
@@ -19,6 +19,7 @@ public class FileSystem extends ContextManager {
     String address;
     int port;
     int maxConnections;
+    private ContextManager contextManager = new ContextManager();
 
     public String getAddress() {
         return address;
@@ -33,66 +34,31 @@ public class FileSystem extends ContextManager {
     }
 
     public FileSystem(String[] args) throws Exception {
-        super();
-        instance = this;
-
-        System.out.println("Inicializamos carpetas");
         initialize();
-        System.out.println("Cargamos la configuración");
         loadConfig();
-
-        noGui = false;
-        address = "localhost";
-        port = 5000;
-
-        if (args.length==0){
-            Object[] options = {"Cliente", "Servidor"};
-            int n = JOptionPane.showOptionDialog(null,
-                    "Seleccione modo de inicio",
-                    "Iniciar Aplicación",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
-
-            switch(n) {
-                case 0: // Cliente
-                    client = true;
-                    break;
-                case 1: // Servidor
-                    server = true;
-                    break;
-            }
-        }
-        else{
-            for (int i = 0; i < args.length; i++) {
-                switch (args[i]) {
-                    case "--nogui":
-                        noGui = true;
-                        break;
-                    case "--client":
-                    case "-c":
-                        if (i + 2 < args.length) {
-                            address = args[i + 1];
-                            port = Integer.parseInt(args[i + 2]);
-                            i += 2;
-                        }
-                        break;
-                    case "--server":
-                    case "-s":
-                        if (i + 1 < args.length) {
-                            port = Integer.parseInt(args[i + 1]);
-                            i++;
-                        }
-                        break;
-                    default:
-                        System.out.println("Arg not recognized: " + args[i]);
-                }
-            }
-        }
+        parseArgs(args);
         run();
     }
+
+    private void parseArgs(String[] args) {
+        for (String arg : args) {
+            switch (arg) {
+                case "--nogui":
+                    noGui = true;
+                    break;
+                case "--client":
+                    client = true;
+                    break;
+                case "--server":
+                    server = true;
+                    break;
+                default:
+                    System.out.println("Argumento no reconocido: " + arg);
+                    break;
+            }
+        }
+    }
+
 
     private void initialize() {
         File fileSystemDir = new File(Const.FILE_SYSTEM_DIRECTORY);
@@ -107,75 +73,57 @@ public class FileSystem extends ContextManager {
         }
     }
 
-    public void loadConfig() throws IOException {
-        try (InputStream inputStream = new FileInputStream(Const.CONFIG_FILE_PATH)) {
+    private void loadConfig() throws IOException {
+        port = 5000;
+        maxConnections = 10;
+        address = "localhost";
+
+        File configFile = new File(Const.CONFIG_FILE_PATH);
+        if (!configFile.exists()) return;
+
+        try (InputStream inputStream = new FileInputStream(configFile)) {
             Yaml yaml = new Yaml();
             Map<String, Object> data = yaml.load(inputStream);
 
-            if (data == null) {
-                System.err.println("Error loading config.");
-                maxConnections = 10;
-                return;
+            if (data != null) {
+                port = (Integer) data.getOrDefault("server-port", 5000);
+                maxConnections = (Integer) data.getOrDefault("max-connections", 10);
+                address = (String) data.getOrDefault("client-default-server-ip", "localhost");
             }
-
-            port = (Integer) data.get("server-port");
-            maxConnections = (Integer) data.get("max-connections");
-            address = (String) data.get("client-default-server-ip");
         }
     }
 
-    public void run() throws Exception {
-        if (!noGui ||(!client&&!server)) {
-            // Modo GUI
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    new ConsoleGUI(instance);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+
+    private void run() throws Exception {
+        if (!noGui) {
+            startGUI();
         } else {
-            if (client) {
-                new Thread(() -> {
-                    try {
-                        initializeClient();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+            if (client) contextManager.processCommand("--client");
+            if (server) contextManager.processCommand("--server");
+            startCommandLoop();
+        }
+    }
+
+    private void startGUI() {
+        SwingUtilities.invokeLater(() -> new ConsoleGUI(contextManager));
+    }
+
+
+    private void startCommandLoop() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("> ");
+            String input = scanner.nextLine().trim();
+            if ("exit".equalsIgnoreCase(input) || "quit".equalsIgnoreCase(input)) {
+                break;
             }
-
-            if (server) {
-                // Iniciar servidor en hilo separado
-                new Thread(() -> {
-                    try {
-                        initializeServer();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            }
-
-            if (noGui) {
-                Scanner scanner = new Scanner(System.in);
-
-                while (true) {
-                    System.out.print("> ");
-
-                    try {
-                        String input = scanner.nextLine().trim();
-                        if ("exit".equalsIgnoreCase(input) || "quit".equalsIgnoreCase(input)) {
-                            break;
-                        }
-                        processCommand(input);
-
-                    } catch (Exception e) {
-                        System.err.println("Error procesando comando: " + e.getMessage());
-                    }
-                }
-                scanner.close();
+            try {
+                contextManager.processCommand(input);
+            } catch (Exception e) {
+                System.err.println("Error procesando comando: " + e.getMessage());
             }
         }
+        scanner.close();
     }
 
     private void initializeClient() throws Exception {
@@ -184,6 +132,14 @@ public class FileSystem extends ContextManager {
 
     private void initializeServer() throws Exception {
         System.out.println("Iniciando servidor en puerto " + port);
+    }
+
+    public ContextManager getContextManager() {
+        return contextManager;
+    }
+
+    public void setContextManager(ContextManager contextManager) {
+        this.contextManager = contextManager;
     }
 }
 

@@ -24,28 +24,27 @@ public class ConsoleGUI {
                     e.printStackTrace();
                 }
 
-
                 CapturePane capturePane = new CapturePane();
                 JFrame frame = new JFrame();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
                 frame.add(capturePane, BorderLayout.CENTER);
 
-
                 JTextField inputField = new JTextField();
                 frame.add(inputField, BorderLayout.SOUTH);
 
-                /**
-                 * Escuchar el botón enter
-                 * */
+                // Escuchar el botón enter
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
                     capturePane.appendText("> " + userInput + "\n");
                     inputField.setText("");
 
-
                     if (userInput != null && !userInput.trim().isEmpty()) {
-//                        handler.executeCommand(userInput.trim());
+                        try {
+                            handler.processCommand(userInput.trim()); // Procesar comando
+                        } catch (Exception ex) {
+                            capturePane.appendText("Error procesando comando: " + ex.getMessage() + "\n");
+                        }
                     }
                 });
 
@@ -54,9 +53,7 @@ public class ConsoleGUI {
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
 
-                /**
-                 * Todos los mensajes de consola se redirigen a la ventana
-                 * */
+                // Redirigir los flujos de salida a la ventana
                 PrintStream ps = System.out;
                 try {
                     System.setOut(new PrintStream(new StreamCapturer("Out", capturePane, ps), true));
@@ -65,11 +62,12 @@ public class ConsoleGUI {
                     throw new RuntimeException(e);
                 }
 
-                // Crear y lanzar un hilo para simular un proceso largo
+                // Crear y lanzar un hilo para simular un proceso largo (si es necesario)
                 new WorkerThread(capturePane).execute();
             }
         });
     }
+
 
 
     /**
