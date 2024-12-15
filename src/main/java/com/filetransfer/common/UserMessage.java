@@ -1,4 +1,4 @@
-package common;
+package com.filetransfer.common;
 
 public class UserMessage extends Header {
     protected String nombre;

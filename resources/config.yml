@@ -1,0 +1,4 @@
+# Configuración predeterminada
+server-port: 8080
+max-connections: 10
+

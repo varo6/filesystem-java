@@ -1,74 +1,34 @@
-import client.ClientMain;
-import server.ServerMain;
+package com.filetransfer;
 
-import java.util.Scanner;
+import com.filetransfer.common.ConsoleGUI;
+
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        String[] input;
+        //se usará la consola por defecto si no se indica lo contrario
+        boolean useGui = true;
+        for (String arg : args) {
+            if (arg.equals("--nogui")) {
+                useGui = false;
+                break;
+            }
+        }
 
-        if (args.length == 0) {
-            System.out.println("Por favor, proporciona un argumento: --client o --server o --exit");
-            System.out.print("Introduce la opción: ");
-            String userInput = scanner.nextLine();
-            input = userInput.split(" ");
+        FileSystem fileSystem = new FileSystem();
+
+        //Ejecución biblioteca gráfica
+        if (!useGui) {
+            fileSystem.runConsoleMode(args);
         } else {
-            input = args;
-        }
-
-        if (input.length == 0) {
-            System.out.println("No se proporcionaron argumentos válidos.");
-            return;
-        }
-
-        switch (input[0]) {
-            case "--client":
-            case "-c":
-                System.out.println("Iniciando cliente...");
-                if (input.length == 3) {
-                    String address = input[1];
-                    try {
-                        int port = Integer.parseInt(input[2]);
-                        ClientMain c = new ClientMain(address, port);
-                        c.start();
-                    } catch (NumberFormatException e) {
-                        System.err.println("Error: El puerto debe ser un número entero válido.");
-                    }
-                } else {
-                    ClientMain c = new ClientMain();
-                    c.start();
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    /**ConsoleGUI gui = new ConsoleGUI(fileSystem);*/
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                break;
-
-            case "--server":
-            case "-s":
-                System.out.println("Iniciando servidor...");
-                if (input.length == 2) {
-                    try {
-                        int port = Integer.parseInt(input[1]);
-                        ServerMain s = new ServerMain(port);
-                        s.start();
-                    } catch (NumberFormatException e) {
-                        System.err.println("Error: El puerto debe ser un número entero válido.");
-                    }
-                } else {
-                    ServerMain s = new ServerMain();
-                    s.start();
-                }
-                break;
-
-            case "--exit":
-            case "-e":
-                System.out.println("Cerrando programa.");
-                break;
-
-            default:
-                System.err.println("Argumento no reconocido. Usa --client, --server o --exit.");
-                break;
+            });
         }
-
-        scanner.close();
     }
 }

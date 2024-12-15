@@ -1,4 +1,4 @@
-package common;
+package com.filetransfer.common;
 
 import java.io.Serializable;
 import java.util.List;

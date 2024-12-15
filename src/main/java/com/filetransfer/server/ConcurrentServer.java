@@ -1,5 +1,7 @@
-package server;
+package com.filetransfer.server;
 
+
+import com.filetransfer.common.Const;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -8,7 +10,6 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static common.Const.MAX_THREADS;
 
 public class ConcurrentServer implements Runnable, Serializable {
 
@@ -19,7 +20,7 @@ public class ConcurrentServer implements Runnable, Serializable {
     public ConcurrentServer(int port) throws IOException {
         this.port = port;
         this.serverSocket = new ServerSocket(port);
-        this.pool = Executors.newFixedThreadPool(MAX_THREADS);
+        this.pool = Executors.newFixedThreadPool(Const.MAX_THREADS);
     }
 
     @Override

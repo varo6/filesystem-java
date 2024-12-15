@@ -1,4 +1,4 @@
-package client;
+package com.filetransfer.client;
 
 
 import java.io.*;
