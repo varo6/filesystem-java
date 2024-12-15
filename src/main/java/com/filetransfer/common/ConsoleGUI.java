@@ -1,28 +1,20 @@
 package com.filetransfer.common;
 
-import com.filetransfer.FileSystem;
-
 import javax.swing.*;
 
-import java.awt.EventQueue;
-import java.awt.BorderLayout;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.awt.*;
+import java.io.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+//import java.util.concurrent.TimeUnit;
 /**
  * <a href="https://stackoverflow.com/questions/12945537/how-to-set-output-stream-to-textarea/12945678#12945678">Cómo hacer la ventana síncrona</a>
  * */
 public class ConsoleGUI {
-    FileSystem context;
-    public static void main(String[] args) {
-        new ConsoleGUI();
-    }
+    private ContextManager handler;
 
-    public ConsoleGUI() {
+    public ConsoleGUI(ContextManager context) {
+        handler = context;
 
-        this.context=context;
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -48,17 +40,16 @@ public class ConsoleGUI {
                  * */
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
-                    capturePane.appendText(userInput + "\n");
+                    capturePane.appendText("> " + userInput + "\n");
                     inputField.setText("");
 
-                    /**
-                     * Aquí se realiza la comprobación del INPUT
-                     * */
-                    if (userInput.equalsIgnoreCase("hola")) {
-                        System.out.println("123");
+
+                    if (userInput != null && !userInput.trim().isEmpty()) {
+//                        handler.executeCommand(userInput.trim());
                     }
                 });
 
+                frame.setBackground(new Color(223, 207, 190));
                 frame.setSize(600, 400);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -67,13 +58,19 @@ public class ConsoleGUI {
                  * Todos los mensajes de consola se redirigen a la ventana
                  * */
                 PrintStream ps = System.out;
-                System.setOut(new PrintStream(new StreamCapturer("STDOUT", capturePane, ps)));
+                try {
+                    System.setOut(new PrintStream(new StreamCapturer("Out", capturePane, ps), true));
+                    System.setErr(new PrintStream(new StreamCapturer("Error", capturePane, ps), true));
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // Crear y lanzar un hilo para simular un proceso largo
                 new WorkerThread(capturePane).execute();
             }
         });
     }
+
 
     /**
      * Hilo de trabajo para ejecutar tareas en segundo plano
@@ -118,13 +115,20 @@ public class ConsoleGUI {
         @Override
         protected void done() {
 
-            System.out.println("Finalizando ventana.");
+
+//            System.out.println("Config loaded:");
+//            System.out.println("Server Port: " + handler.getPort());
+//            System.out.println("Default Server IP: "+ handler.getAddress());
+//            System.out.println("Max Connections: " + handler.getMaxConnections());
+
+            System.out.println("The console is ready to receive commands");
         }
     }
 
     /**
      * Captura y redirige la salida
      */
+
     public class CapturePane extends JPanel implements Consumer {
 
         private JTextArea output;
@@ -161,17 +165,20 @@ public class ConsoleGUI {
      */
     public class StreamCapturer extends OutputStream {
 
+        private Writer writer;
         private StringBuilder buffer;
         private String prefix;
         private Consumer consumer;
         private PrintStream old;
 
-        public StreamCapturer(String prefix, Consumer consumer, PrintStream old) {
+        public StreamCapturer(String prefix, Consumer consumer, PrintStream old) throws UnsupportedEncodingException {
             this.prefix = prefix;
             buffer = new StringBuilder(128);
             buffer.append("[").append(prefix).append("] ");
             this.old = old;
             this.consumer = consumer;
+
+            this.writer = new OutputStreamWriter(old, "UTF-8");
         }
 
         @Override
@@ -185,7 +192,8 @@ public class ConsoleGUI {
                 buffer.append("[").append(prefix).append("] ");
             }
 
-            old.print(c);
+            writer.write(c);
+            writer.flush();
         }
     }
 }

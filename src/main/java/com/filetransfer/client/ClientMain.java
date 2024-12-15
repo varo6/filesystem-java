@@ -1,8 +1,10 @@
 package com.filetransfer.client;
 
+import com.filetransfer.common.ContextManager;
+
 import java.io.IOException;
 
-public class ClientMain {
+public class ClientMain extends ContextManager {
     private String host;
     private int port;
 
