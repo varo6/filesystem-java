@@ -18,7 +18,7 @@ public final class Const {
     public static final int INT_LENGTH = 4;
     public static final int DOUBLE_LENGTH = 8;
     public static final int CHAR_LENGTH = 2;
-    public static final int HEADER_LENGTH = INT_LENGTH*2;
+    public static final int HEADER_LENGTH = INT_LENGTH * 2;
     public static final int MAX_THREADS = 10;
 
     public static final String BASE_DIRECTORY = getBaseDirectory();

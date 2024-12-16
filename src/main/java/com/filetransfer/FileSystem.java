@@ -11,27 +11,11 @@ import java.io.*;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FileSystem{
+public class FileSystem {
     boolean noGui = false;
     boolean client;
     boolean server;
-    FileSystem instance;
-    String address;
-    int port;
-    int maxConnections;
     private ContextManager contextManager = new ContextManager();
-
-    public String getAddress() {
-        return address;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public int getMaxConnections() {
-        return maxConnections;
-    }
 
     public FileSystem(String[] args) throws Exception {
         initialize();
@@ -62,7 +46,7 @@ public class FileSystem{
 
     private void initialize() {
         File fileSystemDir = new File(Const.FILE_SYSTEM_DIRECTORY);
-        System.out.println("File path: "+ Const.FILE_SYSTEM_DIRECTORY);
+        System.out.println("File path: " + Const.FILE_SYSTEM_DIRECTORY);
         if (!fileSystemDir.exists()) {
             boolean fileSystemDirCreated = fileSystemDir.mkdirs();
             if (fileSystemDirCreated) {
@@ -74,9 +58,9 @@ public class FileSystem{
     }
 
     private void loadConfig() throws IOException {
-        port = 5000;
-        maxConnections = 10;
-        address = "localhost";
+        contextManager.setPort(5000);
+        contextManager.setMaxConnections(10);
+        contextManager.setAddress("localhost");
 
         File configFile = new File(Const.CONFIG_FILE_PATH);
         if (!configFile.exists()) return;
@@ -86,9 +70,9 @@ public class FileSystem{
             Map<String, Object> data = yaml.load(inputStream);
 
             if (data != null) {
-                port = (Integer) data.getOrDefault("server-port", 5000);
-                maxConnections = (Integer) data.getOrDefault("max-connections", 10);
-                address = (String) data.getOrDefault("client-default-server-ip", "localhost");
+                contextManager.setPort((Integer) data.getOrDefault("server-port", 5000));
+                contextManager.setMaxConnections((Integer) data.getOrDefault("max-connections", 10));
+                contextManager.setAddress((String) data.getOrDefault("client-default-server-ip", "localhost"));
             }
         }
     }
@@ -120,18 +104,18 @@ public class FileSystem{
             try {
                 contextManager.processCommand(input);
             } catch (Exception e) {
-                System.err.println("Error procesando comando: " + e.getMessage());
+                System.err.println("Error while processing command: " + e.getMessage());
             }
         }
         scanner.close();
     }
 
     private void initializeClient() throws Exception {
-        System.out.println("Iniciando cliente en " + address + ":" + port);
+        System.out.println("Starting client to: " + contextManager.getAddress() + ":" + contextManager.getPort());
     }
 
     private void initializeServer() throws Exception {
-        System.out.println("Iniciando servidor en puerto " + port);
+        System.out.println("Starting server with port: " + contextManager.getPort());
     }
 
     public ContextManager getContextManager() {

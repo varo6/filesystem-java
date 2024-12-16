@@ -3,7 +3,7 @@ package com.filetransfer.common;
 import java.io.Serializable;
 import java.util.List;
 
-public class CommandMessage extends Header implements Serializable  {
+public class CommandMessage extends Header implements Serializable {
 
     protected int type;
     protected List<String> args;
@@ -18,6 +18,7 @@ public class CommandMessage extends Header implements Serializable  {
         DIRECTORY_LIST,
 
     }
+
     public CommandMessage(List<String> args) {
         super();
         this.type = Const.TYPE_COMMAND;

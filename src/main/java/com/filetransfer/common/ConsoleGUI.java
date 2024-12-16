@@ -6,9 +6,11 @@ import java.awt.*;
 import java.io.*;
 import java.util.List;
 //import java.util.concurrent.TimeUnit;
+
 /**
+ * Consola inspirada de:
  * <a href="https://stackoverflow.com/questions/12945537/how-to-set-output-stream-to-textarea/12945678#12945678">Cómo hacer la ventana síncrona</a>
- * */
+ */
 public class ConsoleGUI {
     private ContextManager handler;
 
@@ -33,7 +35,7 @@ public class ConsoleGUI {
                 JTextField inputField = new JTextField();
                 frame.add(inputField, BorderLayout.SOUTH);
 
-                // Escuchar el botón enter
+                // Escuchar el mensaje al presionar el botón enter
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
                     capturePane.appendText("> " + userInput + "\n");
@@ -53,7 +55,7 @@ public class ConsoleGUI {
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
 
-                // Redirigir los flujos de salida a la ventana
+                // Se redirigen los flujos de salida a la ventana, se pueden añadir todos los posibles, pero con estos son suficientes
                 PrintStream ps = System.out;
                 try {
                     System.setOut(new PrintStream(new StreamCapturer("Out", capturePane, ps), true));
@@ -67,7 +69,6 @@ public class ConsoleGUI {
             }
         });
     }
-
 
 
     /**
@@ -98,7 +99,7 @@ public class ConsoleGUI {
              * Escribir en la pantalla todos los mensajes
              *
              * */
-
+            // De momento no hay que añadir nada aquí puesto que los mensajes se envían desde otras clases.
             return null;
         }
 
@@ -112,12 +113,11 @@ public class ConsoleGUI {
 
         @Override
         protected void done() {
-
-
-//            System.out.println("Config loaded:");
-//            System.out.println("Server Port: " + handler.getPort());
-//            System.out.println("Default Server IP: "+ handler.getAddress());
-//            System.out.println("Max Connections: " + handler.getMaxConnections());
+            //Mensajes iniciales tras arrancar la ventana
+            System.out.println("Config loaded:");
+            System.out.println("Server Port: " + handler.getPort());
+            System.out.println("Default Server IP: " + handler.getAddress());
+            System.out.println("Max Connections: " + handler.getMaxConnections());
 
             System.out.println("The console is ready to receive commands");
         }
@@ -126,7 +126,9 @@ public class ConsoleGUI {
     /**
      * Captura y redirige la salida
      */
-
+    /**
+     * Esta clase es la parte visual de la captura de mensajes.
+     */
     public class CapturePane extends JPanel implements Consumer {
 
         private JTextArea output;
@@ -134,7 +136,7 @@ public class ConsoleGUI {
         public CapturePane() {
             setLayout(new BorderLayout());
             output = new JTextArea();
-            output.setEditable(false); // Panel de solo lectura
+            output.setEditable(false); // Panel de solo lectura, registro de mensajes cliente-servidor
             add(new JScrollPane(output));
         }
 

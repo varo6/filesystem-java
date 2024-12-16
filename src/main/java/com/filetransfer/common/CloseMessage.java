@@ -1,8 +1,8 @@
 package com.filetransfer.common;
 
-public class CloseMessage extends Header{
+public class CloseMessage extends Header {
 
-    protected final String CLOSE_MESSAGE= "close";
+    protected final String CLOSE_MESSAGE = "close";
 
 
     public CloseMessage(int type, int length) {

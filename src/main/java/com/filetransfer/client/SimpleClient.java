@@ -22,20 +22,20 @@ public class SimpleClient {
             System.out.println("connecting to server with = " + socket);
 
             BufferedReader in = new BufferedReader(
-                new InputStreamReader(socket.getInputStream())
+                    new InputStreamReader(socket.getInputStream())
             );
 
             PrintWriter out = new PrintWriter(
-                new BufferedWriter(
-                    new OutputStreamWriter(socket.getOutputStream())
-                ),
-                true
+                    new BufferedWriter(
+                            new OutputStreamWriter(socket.getOutputStream())
+                    ),
+                    true
             );
 
             while (true) {
                 System.out.println("Waiting for input from keyboard ");
                 BufferedReader press = new BufferedReader(
-                    new InputStreamReader(System.in)
+                        new InputStreamReader(System.in)
                 );
                 String s = press.readLine();
                 System.out.println("Sending to server: " + s);

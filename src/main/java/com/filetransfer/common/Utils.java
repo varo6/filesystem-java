@@ -11,7 +11,7 @@ public class Utils {
 
     /**
      * Métodos para devolver la IP privada y pública
-     * */
+     */
     public static String getPrivateIP() {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
@@ -21,6 +21,7 @@ public class Utils {
             return "Couldn't get local IP.";
         }
     }
+
     public static String getPublicIP() {
         String publicIP = "No se pudo obtener la IP pública.";
         try {

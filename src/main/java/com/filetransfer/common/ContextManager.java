@@ -6,18 +6,72 @@ import com.filetransfer.SystemContextHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * ContextManager es la clase que se encarga de almacenar variables del archivo, al igual que
+ * almacena el contexto del usuario actuando como una máquina de estados gracias al enum Context
+ * */
 public class ContextManager {
     private Context currentContext = Context.SYSTEM;
     private ContextCommandHandler currentHandler;
+
+    public Thread getActiveThread() {
+        return activeThread;
+    }
+
+    public void setActiveThread(Thread activeThread) {
+        this.activeThread = activeThread;
+    }
+
+    public void stopActiveThread() {
+        if (activeThread != null && activeThread.isAlive()) {
+            activeThread.interrupt();
+            try {
+                activeThread.join(1000);
+            } catch (InterruptedException e) {
+                System.err.println("Error stopping thread: " + e.getMessage());
+            }
+            System.out.println("Thread stopped successfully.");
+        }
+        activeThread = null;
+    }
+
+
+    private Thread activeThread;
+    private int port;
+    private int maxConnections;
+    String address;
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public int getMaxConnections() {
+        return maxConnections;
+    }
+
+    public void setMaxConnections(int maxConnections) {
+        this.maxConnections = maxConnections;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     private Map<Context, ContextCommandHandler> contextHandlers;
 
     public ContextManager() {
         contextHandlers = new HashMap<>();
-        contextHandlers.put(Context.SYSTEM, new SystemContextHandler());
-        contextHandlers.put(Context.CLIENT, new ClientContextHandler());
-        contextHandlers.put(Context.SERVER, new ServerContextHandler());
+        contextHandlers.put(Context.SYSTEM, new SystemContextHandler(this));
+        contextHandlers.put(Context.CLIENT, new ClientContextHandler(this));
+        contextHandlers.put(Context.SERVER, new ServerContextHandler(this));
 
         // Default
         currentHandler = contextHandlers.get(Context.SYSTEM);
@@ -27,29 +81,18 @@ public class ContextManager {
      * Procesa un comando dependiendo del contexto actual
      */
     public void processCommand(String command) throws Exception {
-        if (currentHandler.handleCommand(command)) {
-            switch (command) {
-                case "--client":
-                    currentContext = Context.CLIENT;
-                    currentHandler = contextHandlers.get(Context.CLIENT);
-                    System.out.println("Cambiado a contexto CLIENT");
-                    break;
-                case "--server":
-                    currentContext = Context.SERVER;
-                    currentHandler = contextHandlers.get(Context.SERVER);
-                    System.out.println("Cambiado a contexto SERVER");
-                    break;
-                case "--exit":
-                    // Permite volver a SYSTEM
-                    currentContext = Context.SYSTEM;
-                    currentHandler = contextHandlers.get(Context.SYSTEM);
-                    System.out.println("Regresado a contexto SYSTEM");
-                    break;
-                default:
-                    System.out.println("Comando no reconocido en contexto " + currentContext);
-            }
+        if (!currentHandler.handleCommand(command)) {
+            System.out.println("Command not supported in " + currentContext);
+        }
+    }
+
+    public void changeContext(Context newContext) {
+        if (contextHandlers.containsKey(newContext)) {
+            currentContext = newContext;
+            currentHandler = contextHandlers.get(newContext);
+            System.out.println("Switched to context: " + newContext);
         } else {
-            System.out.println("Comando no válido en contexto " + currentContext);
+            System.out.println("Unknown context: " + newContext);
         }
     }
 

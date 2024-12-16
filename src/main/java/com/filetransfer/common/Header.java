@@ -11,7 +11,6 @@ public class Header implements Serializable {
     protected int length;
 
 
-
     public Header() {
         this.length = Const.HEADER_LENGTH;
         this.type = Const.TYPE_HEADER;
@@ -38,7 +37,7 @@ public class Header implements Serializable {
         return self;
     }
 
-    public void unpack(byte[] a){
+    public void unpack(byte[] a) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(a);
 
         type = byteBuffer.getInt();

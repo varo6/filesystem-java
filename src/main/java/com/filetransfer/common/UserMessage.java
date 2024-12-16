@@ -12,17 +12,20 @@ public class UserMessage extends Header {
         this.nombre = nombre;
         this.dni = dni;
     }
+
     public UserMessage(int dni) {
 
         this.type = Const.TYPE_USER;
         this.dni = dni;
     }
+
     public UserMessage(String nombre) {
 
         this.type = Const.TYPE_USER;
         this.nombre = nombre;
 
     }
+
     public UserMessage() {
 
         this.type = Const.TYPE_USER;

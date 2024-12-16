@@ -3,7 +3,7 @@ package com.filetransfer.common;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class TextMessage extends Header{
+public class TextMessage extends Header {
     protected int dni = 0;
     protected String text = "";
 
@@ -50,16 +50,16 @@ public class TextMessage extends Header{
     @Override
     public byte[] pack() throws IOException {
         //Antes de empaquetar el mensaje, se ha empaquetado la cabecera que indicará que es de tipo Text
-        length = Const.INT_LENGTH+text.length()*Const.CHAR_LENGTH;
-        byte[] self = new byte[Const.INT_LENGTH*2+length];
+        length = Const.INT_LENGTH + text.length() * Const.CHAR_LENGTH;
+        byte[] self = new byte[Const.INT_LENGTH * 2 + length];
 
-        ByteBuffer byteBuffer = ByteBuffer.allocate(Const.INT_LENGTH*2+length);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(Const.INT_LENGTH * 2 + length);
         byteBuffer.putInt(type);//El orden es importante que se mantenga
         byteBuffer.putInt(length);
         byteBuffer.putInt(getDni());
         char[] textChar = getText().toCharArray();
         //No existe un metodo para empaquetar un texto de forma directa, la pasamos a un array de Char y la introducimos
-        for (char c: textChar){
+        for (char c : textChar) {
             byteBuffer.putChar(textChar[c]);
         }
 
@@ -73,9 +73,9 @@ public class TextMessage extends Header{
         ByteBuffer byteBuffer = ByteBuffer.wrap(a);
 
         dni = byteBuffer.getInt();
-        int textSize=(length-4)/2;
-        char [] chars= new char[textSize];
-        for (int i=0; i < chars.length; i++){
+        int textSize = (length - 4) / 2;
+        char[] chars = new char[textSize];
+        for (int i = 0; i < chars.length; i++) {
             chars[i] = byteBuffer.getChar();
         }
 
