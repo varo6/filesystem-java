@@ -23,7 +23,7 @@ public class Utils {
     }
 
     public static String getPublicIP() {
-        String publicIP = "No se pudo obtener la IP pública.";
+        String publicIP = "Couldn't get public IP.";
         try {
             URL url = new URL("https://api.ipify.org");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

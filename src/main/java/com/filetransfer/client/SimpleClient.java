@@ -17,7 +17,6 @@ public class SimpleClient {
 
     public void runClient() throws UnknownHostException, IOException {
         Socket socket = new Socket(host, port);
-
         try {
             System.out.println("connecting to server with = " + socket);
 
@@ -31,7 +30,7 @@ public class SimpleClient {
                     ),
                     true
             );
-
+            out.println("Hello Server");
             while (true) {
                 System.out.println("Waiting for input from keyboard ");
                 BufferedReader press = new BufferedReader(
@@ -47,12 +46,11 @@ public class SimpleClient {
                 String str = in.readLine();
                 if (str == null) {
                     break;
-                } //Server has closed
+                }
                 System.out.println("Received from server: " + str);
             }
         } finally {
             System.out.println("closing...");
-
             socket.close();
         }
     }

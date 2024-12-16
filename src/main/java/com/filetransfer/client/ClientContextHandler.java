@@ -22,7 +22,7 @@ public class ClientContextHandler implements ContextCommandHandler {
                  * */
                 System.out.println("Closing CLIENT context...");
                 contextManager.changeContext(Context.SYSTEM);
-                return true;
+                return true; //Ejecuta el comando, es reconocido
 
             case "?":
             case "--help":
@@ -33,7 +33,7 @@ public class ClientContextHandler implements ContextCommandHandler {
              *     y otros más segun se nos ocurra. CADA COMANDO HA DE SER SOPORTADO/COMPATIBLE POR EL SERVIDOR.
              * */
             default:
-                return false;
+                return false; //Comando no reconocido
         }
     }
 

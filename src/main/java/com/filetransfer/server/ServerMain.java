@@ -22,18 +22,7 @@ public class ServerMain extends ContextManager {
         System.out.println("Public Network: " + publicIP);
         System.out.println("Local Network: " + privateIP);
         ConcurrentServer cs = new ConcurrentServer(port);
-
-        new Thread(this::runCommandLoop);
-
         cs.run();
     }
 
-    private void runCommandLoop() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.print("server> ");
-            String input = scanner.nextLine().trim();
-            //executeCommand(input);
-        }
-    }
 }

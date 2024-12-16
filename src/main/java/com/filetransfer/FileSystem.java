@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -46,8 +47,8 @@ public class FileSystem {
 
     private void initialize() {
         File fileSystemDir = new File(Const.FILE_SYSTEM_DIRECTORY);
-        System.out.println("File path: " + Const.FILE_SYSTEM_DIRECTORY);
         if (!fileSystemDir.exists()) {
+            System.out.println("FILE SYSTEM DIR EXISTS, CHECK: "+fileSystemDir.exists());
             boolean fileSystemDirCreated = fileSystemDir.mkdirs();
             if (fileSystemDirCreated) {
                 System.out.println("'FileSystem' directory created");
@@ -55,6 +56,41 @@ public class FileSystem {
                 System.err.println("Could not create 'FileSystem' directory.");
             }
         }
+
+        File storageDir = new File(Const.STORAGE_DIRECTORY);
+        if (!storageDir.exists()) {
+            boolean storageDirCreated = storageDir.mkdirs();
+            if (storageDirCreated) {
+                System.out.println("'storage' directory created");
+            } else {
+                System.err.println("Could not create 'storage' directory.");
+            }
+        }
+
+        File configFile = new File(Const.CONFIG_FILE_PATH);
+        if (!configFile.exists()) {
+            try {
+                boolean configFileCreated = configFile.createNewFile();
+                if (configFileCreated) {
+                    System.out.println("config.yml file created");
+
+                    try (FileWriter writer = new FileWriter(configFile)) {
+                        Yaml yaml = new Yaml();
+                        Map<String, Object> defaultData = new HashMap<>();
+                        defaultData.put("server-port", 5000);
+                        defaultData.put("max-connections", 10);
+                        defaultData.put("client-default-server-ip", "localhost");
+
+                        yaml.dump(defaultData, writer);
+                    }
+                } else {
+                    System.err.println("Could not create 'config.yml' file.");
+                }
+            } catch (IOException e) {
+                System.err.println("Error creating 'config.yml': " + e.getMessage());
+            }
+        }
+
     }
 
     private void loadConfig() throws IOException {
@@ -108,14 +144,6 @@ public class FileSystem {
             }
         }
         scanner.close();
-    }
-
-    private void initializeClient() throws Exception {
-        System.out.println("Starting client to: " + contextManager.getAddress() + ":" + contextManager.getPort());
-    }
-
-    private void initializeServer() throws Exception {
-        System.out.println("Starting server with port: " + contextManager.getPort());
     }
 
     public ContextManager getContextManager() {

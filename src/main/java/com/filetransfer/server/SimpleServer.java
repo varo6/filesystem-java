@@ -1,6 +1,5 @@
 package com.filetransfer.server;
 
-
 import java.io.*;
 import java.net.Socket;
 
@@ -8,44 +7,35 @@ public class SimpleServer implements Runnable {
 
     private final Socket socket;
 
-    public SimpleServer(Socket socket) throws Exception {
+    public SimpleServer(Socket socket) {
         this.socket = socket;
     }
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream())
-                );
-                PrintWriter out = new PrintWriter(
-                        new BufferedWriter(
-                                new OutputStreamWriter(socket.getOutputStream())
-                        ),
-                        true
-                );
-                while (true) {
-                    String str = in.readLine();
-                    if (str == null || str.equals("quit")) {
-                        break;
-                    }
-                    System.out.println("Echoing: " + str);
-                    /**
-                     * IMPLEMENTAR LECTURA DE COMANDOS AQUÍ
-                     *
-                     *
-                     * */
-                    out.println(str);
+        try (
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true)
+        ) {
+            String clientMessage;
+            out.println("Server is ready to receive messages.");
 
-                    /**
-                     *
-                     * IMPLEMENTAR CUALQUIER MENSAJE DE SALIDA AQUÍ
-                     * */
+            while ((clientMessage = in.readLine()) != null) {
+                if (clientMessage.equals("quit")) {
+                    break;
                 }
+                System.out.println("Recibido del cliente: " + clientMessage);
+                String response = processCommand(clientMessage);
+                out.println(response);
+            }
+        } catch (IOException e) {
+            System.err.println("Error en la comunicación con el cliente: " + e.getMessage());
+        } finally {
+            try {
+                socket.close();
+                System.out.println("Cliente desconectado");
             } catch (IOException e) {
-                e.printStackTrace();
-                break;
+                System.err.println("Error al cerrar el socket del cliente: " + e.getMessage());
             }
         }
     }

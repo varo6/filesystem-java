@@ -20,7 +20,7 @@ public class ServerContextHandler implements ContextCommandHandler {
             case "--help":
             case "-h":
                 getAvailableCommands();
-                return false;//False para no cerrar el contexto
+                return true;//Devuelve que está permitido el comando y es procesado.
             case "--close":
                 /**
                  * Implementar la lógica para cerrar adecuandamente el servidor
@@ -30,12 +30,12 @@ public class ServerContextHandler implements ContextCommandHandler {
 
             /**
              * Añadir más commandos de parte del servidor para lo que haga falta, mismamente --logs
-             * para generar un txt de todo lo sucedido, aunque en ese caso, hay que implementar
+             * para generar un txt de lo sucedido, aunque en ese caso, hay que implementar
              * un sistema de GRABAR mensajes.
              * */
 
             default:
-                return false;
+                return false; //Comando no reconocido
         }
     }
 

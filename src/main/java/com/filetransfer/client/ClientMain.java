@@ -8,10 +8,6 @@ public class ClientMain extends ContextManager {
     private String host;
     private int port;
 
-    public ClientMain() throws Exception {
-        this("localhost", 8080);
-    }
-
     public ClientMain(String host, int port) {
         this.host = host;
         this.port = port;
