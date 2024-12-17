@@ -10,7 +10,6 @@ public class SimpleServer implements Runnable {
     public SimpleServer(Socket socket) {
         this.socket = socket;
     }
-
     @Override
     public void run() {
         try (
@@ -25,8 +24,8 @@ public class SimpleServer implements Runnable {
                     break;
                 }
                 System.out.println("Recibido del cliente: " + clientMessage);
-                String response = processCommand(clientMessage);
-                out.println(response);
+                //String response = processCommand(clientMessage);
+                //out.println(response);
             }
         } catch (IOException e) {
             System.err.println("Error en la comunicación con el cliente: " + e.getMessage());

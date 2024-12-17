@@ -50,7 +50,7 @@ public class ConsoleGUI {
                     }
                 });
 
-                frame.setBackground(new Color(223, 207, 190));
+
                 frame.setSize(600, 400);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -136,6 +136,7 @@ public class ConsoleGUI {
         public CapturePane() {
             setLayout(new BorderLayout());
             output = new JTextArea();
+            output.setBackground(new Color(223, 207, 190));
             output.setEditable(false); // Panel de solo lectura, registro de mensajes cliente-servidor
             add(new JScrollPane(output));
         }
