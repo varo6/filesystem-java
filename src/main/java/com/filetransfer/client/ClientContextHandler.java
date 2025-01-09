@@ -1,5 +1,6 @@
 package com.filetransfer.client;
 
+import com.filetransfer.common.CommandMessage;
 import com.filetransfer.common.Context;
 import com.filetransfer.common.ContextCommandHandler;
 import com.filetransfer.common.ContextManager;
@@ -28,6 +29,13 @@ public class ClientContextHandler implements ContextCommandHandler {
             case "--help":
                 System.out.println("Available commands: " + getAvailableCommands());
                 return true;
+
+            case "--scp":
+                CommandMessage uploadCommand = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
+                        .addArg("dir/origen")
+                        .addArg("dir/destino")
+                        .setPayload("Poner la long en bytes de lo que es la longitud del comando por completo, contando cada caracter a enviar, NO ES ARCHIVO AUN".getBytes())
+                        .build();
             /**
              * Implementar comandos de parte del cliente, como mkdir,ls,pwd,cd,scp -l <dir_local> -r <dir_remote>
              *     y otros más segun se nos ocurra. CADA COMANDO HA DE SER SOPORTADO/COMPATIBLE POR EL SERVIDOR.
