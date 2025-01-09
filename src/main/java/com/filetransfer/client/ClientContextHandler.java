@@ -34,7 +34,7 @@ public class ClientContextHandler implements ContextCommandHandler {
                 CommandMessage uploadCommand = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
                         .addArg("dir/origen")
                         .addArg("dir/destino")
-                        .setPayload("Poner la long en bytes de lo que es la longitud del comando por completo, contando cada caracter a enviar, NO ES ARCHIVO AUN".getBytes())
+                        .setPayload("Aqui van todos los bytes del archivo a transmitir, la informacion util".getBytes())
                         .build();
             /**
              * Implementar comandos de parte del cliente, como mkdir,ls,pwd,cd,scp -l <dir_local> -r <dir_remote>
