@@ -88,11 +88,14 @@ public class ContextManager {
 
     public void changeContext(Context newContext) {
         if (contextHandlers.containsKey(newContext)) {
+            // Limpiar el contexto actual si es necesario
+            if (currentContext == Context.CLIENT || currentContext == Context.SERVER) {
+                stopActiveThread();
+            }
+
             currentContext = newContext;
             currentHandler = contextHandlers.get(newContext);
             System.out.println("Switched to context: " + newContext);
-        } else {
-            System.out.println("Unknown context: " + newContext);
         }
     }
 

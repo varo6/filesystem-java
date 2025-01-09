@@ -1,5 +1,7 @@
 package com.filetransfer.common;
 
+import com.filetransfer.client.ClientMain;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -38,16 +40,22 @@ public class ConsoleGUI {
                 // Escuchar el mensaje al presionar el botón enter
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
-                    capturePane.appendText("> " + userInput + "\n");
-                    inputField.setText("");
-
                     if (userInput != null && !userInput.trim().isEmpty()) {
+                        if (handler.getCurrentContext() == Context.CLIENT) {
+                            if (handler instanceof ClientMain) {
+                                boolean sent = ((ClientMain) handler).sendMessage(userInput.trim());
+                                if (!sent) {
+                                    System.err.println("No se pudo enviar el mensaje");
+                                }
+                            }
+                        }
                         try {
-                            handler.processCommand(userInput.trim()); // Procesar comando
+                            handler.processCommand(userInput.trim());
                         } catch (Exception ex) {
-                            capturePane.appendText("Error procesando comando: " + ex.getMessage() + "\n");
+                            System.err.println("Error processing command: " + ex.getMessage());
                         }
                     }
+                    inputField.setText("");
                 });
 
 

@@ -2,40 +2,55 @@ package com.filetransfer.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class SimpleServer implements Runnable {
-
     private final Socket socket;
+    private volatile boolean running = true;
+    private PrintWriter out;
+    private BufferedReader in;
 
     public SimpleServer(Socket socket) {
         this.socket = socket;
     }
+
     @Override
     public void run() {
-        try (
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true)
-        ) {
-            String clientMessage;
-            out.println("Server is ready to receive messages.");
+        try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
 
-            while ((clientMessage = in.readLine()) != null) {
-                if (clientMessage.equals("quit")) {
+            out.println("Welcome to the server!");
+
+            String clientMessage;
+            while (running && (clientMessage = in.readLine()) != null) {
+                System.out.println("Recibido del cliente: " + clientMessage);
+
+                if (clientMessage.equalsIgnoreCase("quit")) {
+                    out.println("Goodbye!");
                     break;
                 }
-                System.out.println("Recibido del cliente: " + clientMessage);
-                //String response = processCommand(clientMessage);
-                //out.println(response);
+
+                out.println("Echo: " + clientMessage);
             }
         } catch (IOException e) {
-            System.err.println("Error en la comunicación con el cliente: " + e.getMessage());
-        } finally {
-            try {
-                socket.close();
-                System.out.println("Cliente desconectado");
-            } catch (IOException e) {
-                System.err.println("Error al cerrar el socket del cliente: " + e.getMessage());
+            if (running && !socket.isClosed()) {
+                System.err.println("Error en la comunicación: " + e.getMessage());
             }
+        } finally {
+            cleanup();
+        }
+    }
+
+    private void cleanup() {
+        running = false;
+        try {
+            if (out != null) out.close();
+            if (in != null) in.close();
+            if (!socket.isClosed()) socket.close();
+            System.out.println("Cliente desconectado");
+        } catch (IOException e) {
+            System.err.println("Error en la desconexión: " + e.getMessage());
         }
     }
 }
