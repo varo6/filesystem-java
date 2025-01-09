@@ -40,6 +40,17 @@ public class ClientContextHandler implements ContextCommandHandler {
              * Implementar comandos de parte del cliente, como mkdir,ls,pwd,cd,scp -l <dir_local> -r <dir_remote>
              *     y otros más segun se nos ocurra. CADA COMANDO HA DE SER SOPORTADO/COMPATIBLE POR EL SERVIDOR.
              * */
+            case "ls":
+                if (ClientUtils.validateLsArg("-la")) {
+                    CommandMessage lsCommand = new CommandMessage.Builder(CommandMessage.CommandType.LS)
+                            .addArg("-la")
+                            .build();
+                    //enviar el comando
+                }
+                else {
+                    System.out.println("Error de uso en Ls, comandos disponibles: (posible funcion lsArgs) ");
+                }
+                return true;
             default:
                 return false; //Comando no reconocido
         }

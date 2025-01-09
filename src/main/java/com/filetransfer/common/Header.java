@@ -16,31 +16,19 @@ public class Header implements Serializable {
         this.type = Const.TYPE_HEADER;
     }
 
-    public byte[] pack() throws IOException {
-
-
-        //La cabecera solo tiene un tamaño de 4 + 4 = 8
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ObjectOutputStream outputStream = new ObjectOutputStream(byteArrayOutputStream);
-
-        outputStream.writeObject(this);
-
-        ByteBuffer byteBuffer = ByteBuffer.allocate(length);
-        byteBuffer.putInt(type);
-        byteBuffer.putInt(length);
-
-        byteBuffer.flip();
-
-        byte[] self = new byte[Const.HEADER_LENGTH];
-        byteBuffer.get(self);
-
-        return self;
+    public int getType() {
+        return type;
     }
 
-    public void unpack(byte[] a) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(a);
+    public void setType(int type) {
+        this.type = type;
+    }
 
-        type = byteBuffer.getInt();
-        length = byteBuffer.getInt();
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

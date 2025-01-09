@@ -15,6 +15,7 @@ public class CommandMessage extends Header implements Serializable {
         FILE_UPLOAD(2),
         FILE_DOWNLOAD(2),
         DIRECTORY_CREATE(1),
+        LS(1),
         DIRECTORY_LIST(0);
 
         private final int requiredArgs;
@@ -42,6 +43,7 @@ public class CommandMessage extends Header implements Serializable {
     }
 
     private CommandMessage(Builder builder) {
+        this.type = Const.TYPE_COMMAND;
         this.mtype = builder.cType;
         this.args = builder.args;
         this.payload = builder.payload;
