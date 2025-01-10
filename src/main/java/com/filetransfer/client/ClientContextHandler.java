@@ -26,31 +26,81 @@ public class ClientContextHandler implements ContextCommandHandler {
                 return true; //Ejecuta el comando, es reconocido
 
             case "?":
-            case "--help":
+            case "help":
                 System.out.println("Available commands: " + getAvailableCommands());
                 return true;
 
-            case "--scp":
-                CommandMessage uploadCommand = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
-                        .addArg("dir/origen")
-                        .addArg("dir/destino")
-                        .setPayload("Aqui van todos los bytes del archivo a transmitir, la informacion util".getBytes())
-                        .build();
-            /**
-             * Implementar comandos de parte del cliente, como mkdir,ls,pwd,cd,scp -l <dir_local> -r <dir_remote>
-             *     y otros más segun se nos ocurra. CADA COMANDO HA DE SER SOPORTADO/COMPATIBLE POR EL SERVIDOR.
-             * */
+            case "scp":
+                if (ClientUtils.validateScpArg(command)) {
+                    if (command[1].equals("-u")){
+                        System.out.println("tu comando es valido: (subida)" + command[0] + " " + command[1] + " " + command[2] + " " + command[3]);
+                        CommandMessage uploadCommand = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
+                                .addArg(command[1])
+                                .addArg(command[3])
+                                .setPayload("Aqui van todos los bytes del archivo a transmitir, la informacion util".getBytes())
+                                .build();
+                        return true;
+                    } else if (command[1].equals("-d")){
+                        System.out.println("tu comando es valido: (descarga)" + command[0] + " " + command[1] + " " + command[2] + " " + command[3]);
+                        CommandMessage downloadCommand = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
+                                .addArg(command[1])
+                                .addArg(command[3])
+                                .build();
+                        return true;
+                    }
+                }
+                else { return false; }
+
+            case "dir":
             case "ls":
                 if (ClientUtils.validateLsArg(command)) {
-                    CommandMessage lsCommand = new CommandMessage.Builder(CommandMessage.CommandType.LS)
+                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
+                    CommandMessage lsCommand = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LIST)
                             .addArg(command[1])
                             .build();
+                    return true;
                 }
-                else {
-                    System.out.println("Error de uso en Ls, comandos disponibles: (posible funcion lsArgs) ");
-                    return false;
+                else { return false; }
+
+            case "mkdir":
+                if (ClientUtils.validateMkdirArg(command)) {
+                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
+                    CommandMessage mkdirCommand = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_CREATE)
+                              .addArg(command[1])
+                              .build();
+                    return true;
                 }
-                return true;
+                else { return false; }
+
+            case "pwd":
+                if (ClientUtils.validatePwdArg(command)) {
+                    System.out.println("tu comando es valido: " + command[0]);
+                    CommandMessage pwdCommand = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LOCATION)
+                            .build();
+                    return true;
+                }
+                else { return false; }
+
+            case "cd":
+                if (ClientUtils.validateCdArg(command)) {
+                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
+                    CommandMessage cdCommand = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_OPEN)
+                            .addArg(command[1])
+                            .build();
+                    return true;
+                }
+                else { return false; }
+
+            case "rm":
+                if (ClientUtils.validateRmArg(command)) {
+                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
+                    CommandMessage rmCommand = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DELETE)
+                            .addArg(command[1])
+                            .build();
+                    return true;
+                }
+                else { return false; }
+
             default:
                 return false; //Comando no reconocido
         }

@@ -41,7 +41,8 @@ public class ConsoleGUI {
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
                     if (userInput != null && !userInput.trim().isEmpty()) {
-                        //divide en ["comando", "argumento1", "argumento2"]
+                        //Imprime el comando en la consola para que el usuario pueda verlo
+                        System.out.println("> " + userInput);
                         String[] commandArgs = userInput.trim().split("\\s+");
                         if (handler.getCurrentContext() == Context.CLIENT) {
                             if (handler instanceof ClientMain) {

@@ -11,23 +11,14 @@ public class CommandMessage extends Header implements Serializable {
     private CommandType  mtype;
     private byte[] payload;
 
-    public enum CommandType  {
-        FILE_UPLOAD(2),
-        FILE_DOWNLOAD(2),
-        DIRECTORY_CREATE(1),
-        LS(1),
-        DIRECTORY_LIST(0);
-
-        private final int requiredArgs;
-
-        CommandType(int requiredArgs) {
-            this.requiredArgs = requiredArgs;
-        }
-
-        public int getRequiredArgs() {
-            return requiredArgs;
-        }
-
+    public enum CommandType {
+        FILE_UPLOAD,
+        FILE_DOWNLOAD,
+        DIRECTORY_CREATE,
+        DIRECTORY_LIST,
+        DIRECTORY_LOCATION,
+        FILE_DELETE,
+        DIRECTORY_OPEN
     }
 
     public CommandType getCommandType() {
@@ -68,17 +59,8 @@ public class CommandMessage extends Header implements Serializable {
             return this;
         }
         public CommandMessage build() throws IllegalArgumentException {
-            validateCommand();
             return new CommandMessage(this);
         }
 
-        private void validateCommand() {
-            if (args.size() != cType.getRequiredArgs()) {
-                throw new IllegalArgumentException(
-                        String.format("Command %s requires %d arguments, but got %d",
-                                cType, cType.getRequiredArgs(), args.size())
-                );
-            }
-        }
     }
 }
