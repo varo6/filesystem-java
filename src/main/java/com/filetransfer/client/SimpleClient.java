@@ -103,13 +103,18 @@ public class SimpleClient {
         }
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(String[] message) {
         if (state != ConnectionState.CONNECTED) {
             System.err.println("Cannot send message. Client is not connected.");
             return;
         }
         if (out != null && running) {
-            out.println(message);
+            try{
+                out.println(message.toString());
+
+            } catch (Exception e) {
+                System.err.println("Error while processing command: " + e.getMessage());
+            }
         }
     }
 

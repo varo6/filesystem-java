@@ -15,8 +15,8 @@ public class ClientContextHandler implements ContextCommandHandler {
         this.contextManager = manager;
     }
     @Override
-    public boolean handleCommand(String command) throws Exception {
-        switch (command) {
+    public boolean handleCommand(String[] command) throws Exception {
+        switch (command[0]) {
             case "--close":
                 /**
                  * Implementar la lógica para cerrar adecuandamente el cliente
@@ -41,14 +41,14 @@ public class ClientContextHandler implements ContextCommandHandler {
              *     y otros más segun se nos ocurra. CADA COMANDO HA DE SER SOPORTADO/COMPATIBLE POR EL SERVIDOR.
              * */
             case "ls":
-                if (ClientUtils.validateLsArg("-la")) {
+                if (ClientUtils.validateLsArg(command)) {
                     CommandMessage lsCommand = new CommandMessage.Builder(CommandMessage.CommandType.LS)
-                            .addArg("-la")
+                            .addArg(command[1])
                             .build();
-                    //enviar el comando
                 }
                 else {
                     System.out.println("Error de uso en Ls, comandos disponibles: (posible funcion lsArgs) ");
+                    return false;
                 }
                 return true;
             default:

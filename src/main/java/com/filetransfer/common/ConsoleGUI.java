@@ -41,16 +41,18 @@ public class ConsoleGUI {
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
                     if (userInput != null && !userInput.trim().isEmpty()) {
+                        //divide en ["comando", "argumento1", "argumento2"]
+                        String[] commandArgs = userInput.trim().split("\\s+");
                         if (handler.getCurrentContext() == Context.CLIENT) {
                             if (handler instanceof ClientMain) {
-                                boolean sent = ((ClientMain) handler).sendMessage(userInput.trim());
+                                boolean sent = ((ClientMain) handler).sendMessage(commandArgs);
                                 if (!sent) {
                                     System.err.println("No se pudo enviar el mensaje");
                                 }
                             }
                         }
                         try {
-                            handler.processCommand(userInput.trim());
+                            handler.processCommand(commandArgs);
                         } catch (Exception ex) {
                             System.err.println("Error processing command: " + ex.getMessage());
                         }

@@ -29,11 +29,11 @@ public class ClientMain extends ContextManager {
 
     public void stop() {
         if (client != null) {
-            client.sendMessage("quit");
+            client.sendMessage(new String[]{"quit"});
         }
     }
 
-    public boolean sendMessage(String message) {
+    public boolean sendMessage(String[] message) {
         if (client != null && isConnected) {
             client.sendMessage(message);
             return true;

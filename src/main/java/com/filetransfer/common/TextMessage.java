@@ -47,40 +47,4 @@ public class TextMessage extends Header {
         this.text = text;
     }
 
-    @Override
-    public byte[] pack() throws IOException {
-        //Antes de empaquetar el mensaje, se ha empaquetado la cabecera que indicará que es de tipo Text
-        length = Const.INT_LENGTH + text.length() * Const.CHAR_LENGTH;
-        byte[] self = new byte[Const.INT_LENGTH * 2 + length];
-
-        ByteBuffer byteBuffer = ByteBuffer.allocate(Const.INT_LENGTH * 2 + length);
-        byteBuffer.putInt(type);//El orden es importante que se mantenga
-        byteBuffer.putInt(length);
-        byteBuffer.putInt(getDni());
-        char[] textChar = getText().toCharArray();
-        //No existe un metodo para empaquetar un texto de forma directa, la pasamos a un array de Char y la introducimos
-        for (char c : textChar) {
-            byteBuffer.putChar(textChar[c]);
-        }
-
-        return self;
-    }
-
-    @Override
-    public void unpack(byte[] a) {
-        // super.unpack(a); No hace falta si lo que queremos es leer la parte del cuerpo Text,
-        // con el super se ha de incluir el tamaño de la cabecera
-        ByteBuffer byteBuffer = ByteBuffer.wrap(a);
-
-        dni = byteBuffer.getInt();
-        int textSize = (length - 4) / 2;
-        char[] chars = new char[textSize];
-        for (int i = 0; i < chars.length; i++) {
-            chars[i] = byteBuffer.getChar();
-        }
-
-        text = chars.toString();
-        //Se ha desempaquetado la cabecera
-        //El desempaque del cuerpo depende de cómo ha sido empaquetado este Objeto: DNI + TEXTO
-    }
 }

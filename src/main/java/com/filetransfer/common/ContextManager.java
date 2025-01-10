@@ -80,7 +80,7 @@ public class ContextManager {
     /**
      * Procesa un comando dependiendo del contexto actual
      */
-    public void processCommand(String command) throws Exception {
+    public void processCommand(String[] command) throws Exception {
         if (!currentHandler.handleCommand(command)) {
             System.out.println("Command not supported in " + currentContext);
         }

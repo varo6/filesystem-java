@@ -118,8 +118,8 @@ public class FileSystem {
         if (!noGui) {
             startGUI();
         } else {
-            if (client) contextManager.processCommand("--client");
-            if (server) contextManager.processCommand("--server");
+            if (client) contextManager.processCommand(new String[]{"--client"});
+            if (server) contextManager.processCommand(new String[]{"--server"});
             startCommandLoop();
         }
     }
@@ -134,11 +134,12 @@ public class FileSystem {
         while (true) {
             System.out.print("> ");
             String input = scanner.nextLine().trim();
+            String[] command = input.split(" ");
             if ("exit".equalsIgnoreCase(input) || "quit".equalsIgnoreCase(input)) {
                 break;
             }
             try {
-                contextManager.processCommand(input);
+                contextManager.processCommand(command);
             } catch (Exception e) {
                 System.err.println("Error while processing command: " + e.getMessage());
             }
