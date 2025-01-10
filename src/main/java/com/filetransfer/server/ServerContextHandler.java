@@ -14,8 +14,8 @@ public class ServerContextHandler implements ContextCommandHandler {
         this.contextManager = manager;
     }
     @Override
-    public boolean handleCommand(String command) throws Exception {
-        switch (command) {
+    public boolean handleCommand(String[] command) throws Exception {
+        switch (command[0]) {
             case "?":
             case "--help":
             case "-h":
