@@ -1,5 +1,9 @@
 package com.filetransfer.server;
 
+import com.filetransfer.common.CommandMessage;
+import com.filetransfer.common.Header;
+import com.filetransfer.common.Const;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -9,6 +13,7 @@ public class SimpleServer implements Runnable {
     private volatile boolean running = true;
     private PrintWriter out;
     private BufferedReader in;
+    private ObjectInputStream ois;
 
     public SimpleServer(Socket socket) {
         this.socket = socket;
@@ -17,26 +22,38 @@ public class SimpleServer implements Runnable {
     @Override
     public void run() {
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-
+            ois = new ObjectInputStream(socket.getInputStream());
             out.println("Welcome to the server!");
 
-            String clientMessage;
-            while (running && (clientMessage = in.readLine()) != null) {
-                System.out.println("Recibido del cliente: " + clientMessage);
+            while (running) {
 
-                if (clientMessage.equalsIgnoreCase("quit")) {
-                    out.println("Goodbye!");
-                    break;
+                // Leer el header porque todos los mensajes tendrán header
+                Header h= (Header) ois.readObject();
+                switch(h.getType()) {
+                    case Const.TYPE_COMMAND:
+                        CommandMessage cm = (CommandMessage) h;
+                        //handle command
+
+                    case Const.TYPE_TEXT:
+                        //handle text
+
+                    case Const.TYPE_CLOSE:
+                        out.println("Goodbye!");
+                        cleanup();
+                        break;
+
+                    default:
+                        System.out.println("Unknown message type");
                 }
 
-                out.println("Echo: " + clientMessage);
             }
         } catch (IOException e) {
             if (running && !socket.isClosed()) {
                 System.err.println("Error en la comunicación: " + e.getMessage());
             }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } finally {
             cleanup();
         }

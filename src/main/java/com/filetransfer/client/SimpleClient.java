@@ -1,5 +1,7 @@
 package com.filetransfer.client;
 
+import com.filetransfer.common.CommandMessage;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +14,7 @@ public class SimpleClient {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private ObjectOutputStream oos;
     private Scanner scanner;
 
     private final Object connectionLock = new Object();
@@ -46,6 +49,7 @@ public class SimpleClient {
 
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+            oos = new ObjectOutputStream(socket.getOutputStream());
 
             // Thread para recibir mensajes del servidor
             Thread receiverThread = new Thread(this::receiveMessages);
@@ -83,6 +87,35 @@ public class SimpleClient {
         }
     }
 
+    public void sendMessage(String[] message) {
+        if (state != ConnectionState.CONNECTED) {
+            System.err.println("Cannot send message. Client is not connected.");
+            return;
+        }
+        if (out != null && running) {
+            try{
+                out.println(message.toString());
+
+            } catch (Exception e) {
+                System.err.println("Error while processing command: " + e.getMessage());
+            }
+        }
+    }
+
+    public void sendCommand(CommandMessage cm){
+        if (state != ConnectionState.CONNECTED) {
+            System.err.println("Cannot send command. Client is not connected.");
+            return;
+        }
+        if (out != null && running) {
+            try{
+                oos.writeObject(cm);
+            } catch (Exception e) {
+                System.err.println("Error while processing command: " + e.getMessage());
+            }
+        }
+    }
+
     private void cleanup() {
         running = false;
         try {
@@ -103,22 +136,8 @@ public class SimpleClient {
         }
     }
 
-    public void sendMessage(String[] message) {
-        if (state != ConnectionState.CONNECTED) {
-            System.err.println("Cannot send message. Client is not connected.");
-            return;
-        }
-        if (out != null && running) {
-            try{
-                out.println(message.toString());
 
-            } catch (Exception e) {
-                System.err.println("Error while processing command: " + e.getMessage());
-            }
-        }
-    }
-
-    public void stopClient() {
+public void stopClient() {
         running = false;
         cleanup();
         setState(ConnectionState.DISCONNECTED);
