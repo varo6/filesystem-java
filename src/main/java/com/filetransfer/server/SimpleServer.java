@@ -34,6 +34,9 @@ public class SimpleServer implements Runnable {
                     case Const.TYPE_COMMAND:
                         CommandMessage cm = (CommandMessage) h;
                         //handle command
+                        if (cm.getCommandType() == CommandMessage.CommandType.CON_CHECK) {
+                            out.println("Recibido el objeto CommandMessage de prueba, tu argumento: " + cm.getArgs().get(0));
+                        }
 
                     case Const.TYPE_TEXT:
                         //handle text

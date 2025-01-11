@@ -18,7 +18,8 @@ public class CommandMessage extends Header implements Serializable {
         DIRECTORY_LIST,
         DIRECTORY_LOCATION,
         FILE_DELETE,
-        DIRECTORY_OPEN
+        DIRECTORY_OPEN,
+        CON_CHECK
     }
 
     public CommandType getCommandType() {
@@ -34,6 +35,8 @@ public class CommandMessage extends Header implements Serializable {
     }
 
     private CommandMessage(Builder builder) {
+        super();
+        setType(Const.TYPE_COMMAND);
         this.type = Const.TYPE_COMMAND;
         this.mtype = builder.cType;
         this.args = builder.args;

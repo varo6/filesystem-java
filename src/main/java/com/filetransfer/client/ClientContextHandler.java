@@ -107,6 +107,16 @@ public class ClientContextHandler implements ContextCommandHandler {
                 }
                 else { return false; }
 
+            case "ccheck":
+                if (ClientUtils.validateCheckConArg(command)) {
+                    System.out.println("tu comando es valido: " + command[0]);
+                    commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.CON_CHECK)
+                            .addArg(command[1])
+                            .build();
+                    break;
+                }
+                else { return false; }
+
             default:
                 return false; //Comando no reconocido
         }

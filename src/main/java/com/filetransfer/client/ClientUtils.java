@@ -54,5 +54,12 @@ public class ClientUtils {
         }
         return true;
     }
+    public static boolean validateCheckConArg(String[] arg) {
+        if (arg.length != 2 && arg.length != 1) {
+            System.out.println("Invalid command. Usage: checkCon [message (optional)]");
+            return false;
+        }
+        return true;
+    }
 }
 
