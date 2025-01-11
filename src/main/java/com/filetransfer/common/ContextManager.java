@@ -4,7 +4,9 @@ import com.filetransfer.client.ClientContextHandler;
 import com.filetransfer.server.ServerContextHandler;
 import com.filetransfer.SystemContextHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 /**
  * ContextManager es la clase que se encarga de almacenar variables del archivo, al igual que
@@ -13,6 +15,7 @@ import java.util.Map;
 public class ContextManager {
     private Context currentContext = Context.SYSTEM;
     private ContextCommandHandler currentHandler;
+    private List<ContextObserver> observers = new ArrayList<>();
 
     public Thread getActiveThread() {
         return activeThread;
@@ -76,6 +79,13 @@ public class ContextManager {
         // Default
         currentHandler = contextHandlers.get(Context.SYSTEM);
     }
+    public void addContextObserver(ContextObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeContextObserver(ContextObserver observer) {
+        observers.remove(observer);
+    }
 
     /**
      * Procesa un comando dependiendo del contexto actual
@@ -88,7 +98,6 @@ public class ContextManager {
 
     public void changeContext(Context newContext) {
         if (contextHandlers.containsKey(newContext)) {
-            // Limpiar el contexto actual si es necesario
             if (currentContext == Context.CLIENT || currentContext == Context.SERVER) {
                 stopActiveThread();
             }
@@ -96,10 +105,18 @@ public class ContextManager {
             currentContext = newContext;
             currentHandler = contextHandlers.get(newContext);
             System.out.println("Switched to context: " + newContext);
+
+            // Notificar a todos los observers
+            for (ContextObserver observer : observers) {
+                observer.onContextChanged(newContext);
+            }
         }
     }
 
     public Context getCurrentContext() {
         return currentContext;
+    }
+    public ContextCommandHandler getContextHandler(Context context) {
+        return contextHandlers.get(context);
     }
 }

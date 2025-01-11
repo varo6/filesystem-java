@@ -30,7 +30,7 @@ public class SystemContextHandler implements ContextCommandHandler {
                 manager.stopActiveThread();
 
                 Thread clientThread = new Thread(() -> {
-                    ClientMain client = new ClientMain(manager.getAddress(), manager.getPort());
+                    ClientMain client = new ClientMain(manager.getAddress(), manager.getPort(),manager);
                     try {
                         client.start();
                     } catch (IOException e) {

@@ -1,4 +1,4 @@
 # Configuración predeterminada
-server-port: 8080
+server-port: 5000
 max-connections: 10
 client-default-server-ip: localhost

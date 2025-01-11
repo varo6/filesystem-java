@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 //import java.util.concurrent.TimeUnit;
 
@@ -13,11 +14,12 @@ import java.util.List;
  * Consola inspirada de:
  * <a href="https://stackoverflow.com/questions/12945537/how-to-set-output-stream-to-textarea/12945678#12945678">Cómo hacer la ventana síncrona</a>
  */
-public class ConsoleGUI {
+public class ConsoleGUI implements ContextObserver{
     private ContextManager handler;
-
+    private JTextField inputField;
     public ConsoleGUI(ContextManager context) {
         handler = context;
+        handler.addContextObserver(this);
 
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -34,25 +36,18 @@ public class ConsoleGUI {
                 frame.setLayout(new BorderLayout());
                 frame.add(capturePane, BorderLayout.CENTER);
 
-                JTextField inputField = new JTextField();
+                inputField = new JTextField();
                 frame.add(inputField, BorderLayout.SOUTH);
 
                 // Escuchar el mensaje al presionar el botón enter
                 inputField.addActionListener(e -> {
                     String userInput = inputField.getText();
                     if (userInput != null && !userInput.trim().isEmpty()) {
-                        //Imprime el comando en la consola para que el usuario pueda verlo
+                        // Imprime el comando en la consola para que el usuario pueda verlo
                         System.out.println("> " + userInput);
                         String[] commandArgs = userInput.trim().split("\\s+");
-                        if (handler.getCurrentContext() == Context.CLIENT) {
-                            if (handler instanceof ClientMain) {
-                                boolean sent = ((ClientMain) handler).sendMessage(commandArgs);
-                                if (!sent) {
-                                    System.err.println("No se pudo enviar el mensaje");
-                                }
-                            }
-                        }
                         try {
+                            // Procesar el comando a través del ContextManager actual
                             handler.processCommand(commandArgs);
                         } catch (Exception ex) {
                             System.err.println("Error processing command: " + ex.getMessage());
@@ -81,6 +76,15 @@ public class ConsoleGUI {
         });
     }
 
+    @Override
+    public void onContextChanged(Context newContext) {
+        EventQueue.invokeLater(() -> {
+            inputField.setEnabled(true);
+            String contextName = newContext.toString();
+            System.out.println("Context changed to: " + contextName);
+        });
+    }
+
 
     /**
      * Hilo de trabajo para ejecutar tareas en segundo plano
@@ -94,23 +98,7 @@ public class ConsoleGUI {
 
         @Override
         protected Void doInBackground() throws Exception {
-
-//            System.out.println("Hello, this is a test");
-//            for (int i = 0; i < 3; i++) {
-//                try {
-//                    TimeUnit.SECONDS.sleep(1);
-//                    // Publicar la salida mientras se ejecuta en segundo plano
-//                    publish("hola:" + i);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            publish("Wave if you can see me");
-            /**
-             * Escribir en la pantalla todos los mensajes
-             *
-             * */
-            // De momento no hay que añadir nada aquí puesto que los mensajes se envían desde otras clases.
+            handler.getCurrentContext();
             return null;
         }
 
@@ -190,7 +178,7 @@ public class ConsoleGUI {
             this.old = old;
             this.consumer = consumer;
 
-            this.writer = new OutputStreamWriter(old, "UTF-8");
+            this.writer = new OutputStreamWriter(old, StandardCharsets.UTF_8);
         }
 
         @Override
