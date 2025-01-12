@@ -44,6 +44,7 @@ public class SimpleServer implements Runnable {
                         String mainCommand = cm.getCommandString(ct);
                         String argsCommand= String.valueOf(cm.getArgs());
                         System.out.println(mainCommand + argsCommand);
+                        //Genera una respuesta al cliente
                         String response = server.processCommand(cm, path);
                         out.println(response);
                         break;

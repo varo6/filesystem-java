@@ -51,11 +51,16 @@ public class ServerCommandProcess {
     }
 
     private String directoryCreate(Path path) {
-        try {
-            Files.createDirectories(path.resolve(cm.getArgs().get(0)));
-            return "Directorio creado en: " + path.toString();
-        } catch (IOException e) {
-            return "Error al crear el directorio: " + e.getMessage();
+        Path newDir = path.resolve(cm.getArgs().get(0));
+        if (Files.exists(newDir)) {
+            return "El directorio ya existe: " + newDir.toString();
+        } else {
+            try {
+                Files.createDirectories(newDir);
+                return "Directorio creado en: " + newDir.toString();
+            } catch (IOException e) {
+                return "Error al crear el directorio: " + e.getMessage();
+            }
         }
     }
 
