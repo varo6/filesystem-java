@@ -38,7 +38,6 @@ public class ClientContextHandler implements ContextCommandHandler {
             case "scp":
                 if (ClientUtils.validateScpArg(command)) {
                     if (command[1].equals("-u")){
-                        System.out.println("tu comando es valido: (subida)" + command[0] + " " + command[1] + " " + command[2] + " " + command[3]);
                         commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
                                 .addArg(command[1])
                                 .addArg(command[3])
@@ -46,7 +45,6 @@ public class ClientContextHandler implements ContextCommandHandler {
                                 .build();
                         break;
                     } else if (command[1].equals("-d")){
-                        System.out.println("tu comando es valido: (descarga)" + command[0] + " " + command[1] + " " + command[2] + " " + command[3]);
                         commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
                                 .addArg(command[1])
                                 .addArg(command[3])
@@ -84,7 +82,6 @@ public class ClientContextHandler implements ContextCommandHandler {
 
             case "pwd":
                 if (ClientUtils.validatePwdArg(command)) {
-                    System.out.println("tu comando es valido: " + command[0]);
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LOCATION)
                             .build();
                     break;
@@ -93,7 +90,6 @@ public class ClientContextHandler implements ContextCommandHandler {
 
             case "cd":
                 if (ClientUtils.validateCdArg(command)) {
-                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_OPEN)
                             .addArg(command[1])
                             .build();
@@ -103,7 +99,6 @@ public class ClientContextHandler implements ContextCommandHandler {
 
             case "rm":
                 if (ClientUtils.validateRmArg(command)) {
-                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DELETE)
                             .addArg(command[1])
                             .build();
@@ -113,7 +108,6 @@ public class ClientContextHandler implements ContextCommandHandler {
 
             case "ccheck":
                 if (ClientUtils.validateCheckConArg(command)) {
-                    System.out.println("tu comando es valido: " + command[0]);
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.CON_CHECK)
                             .addArg(command[1])
                             .build();
@@ -122,7 +116,7 @@ public class ClientContextHandler implements ContextCommandHandler {
                 else { return false; }
 
             default:
-                return false; //Comando no reconocido
+                return false;
         }
         if (commandMessage != null && client != null) {
             client.sendCommand(commandMessage);

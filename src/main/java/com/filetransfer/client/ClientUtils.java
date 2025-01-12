@@ -28,10 +28,10 @@ public class ClientUtils {
     public static boolean validateLsArg(String[] arg) {
         if (arg.length == 1) {
             return true;
-        } else if (arg.length == 2) {
-            return arg[1].equals("-la") || arg[1].equals("-l") || arg[1].equals("-a");
+        } else if (arg.length == 2 && arg[1].equals("-l")) {
+            return true;
         } else {
-            System.out.println("Invalid command. Usage: ls [-la | -l | -a]");
+            System.out.println("Invalid command. Usage: ls [ -l (optional) ]");
             return false;
         }
     }
