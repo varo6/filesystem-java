@@ -66,10 +66,19 @@ public class ServerCommandProcess {
 
     private String directoryList(Path path) {
         try{
-            String result = Files.list(path)
-                    .map(Path::getFileName)
-                    .map(Path::toString)
-                    .collect(Collectors.joining("\n"));
+            String result = "";
+            if (cm.getArgs().isEmpty()){
+                result = Files.list(path)
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .collect(Collectors.joining(" "));
+            }
+            else if (cm.getArgs().get(0).equals("-l")) {
+                result = Files.list(path)
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .collect(Collectors.joining("\n"));
+            }
         return "Listando directorio: " + path.toString() + "\n" + result;
         } catch (IOException e) {
             return "Error al listar el directorio: " + e.getMessage();
@@ -77,16 +86,25 @@ public class ServerCommandProcess {
     }
 
     private String directoryLocation(Path path) {
-        return "Localización del directorio: " + path.toString();
+        return "Localización del directorio: \n" + path.toString();
     }
 
     private String fileDelete(Path path) {
-        // Lógica para borrar un archivo
-        return "Borrando archivo en: " + path.toString();
+        Path file = path.resolve(cm.getArgs().get(0));
+        try {
+            if (Files.exists(file)) {
+                Files.delete(file);
+                return "Archivo" + cm.getArgs().get(0) + "borrado en: " + path.toString();
+            } else {
+                return "Error: El archivo no existe en " + path.toString();
+            }
+        } catch (IOException e) {
+            return "Error al borrar el archivo: " + e.getMessage();
+            }
     }
 
     private String directoryOpen(Path path) {
-        // Lógica para abrir un directorio
+        // PONER HEAD EN PATH + GETARG
         return "Abriendo directorio: " + path.toString();
     }
 

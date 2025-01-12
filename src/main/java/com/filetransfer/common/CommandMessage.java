@@ -37,13 +37,15 @@ public class CommandMessage extends Header implements Serializable {
             case FILE_DOWNLOAD:
                 return "scp";
             case DIRECTORY_LIST:
-                return "pwd";
+                return "ls";
             case DIRECTORY_OPEN:
                 return "cd";
             case DIRECTORY_CREATE:
                 return "mkdir";
             case DIRECTORY_LOCATION:
-                return "ls";
+                return "pwd";
+            default:
+                return "Comando no reconocido";
         }
     }
     public List<String> getArgs() {

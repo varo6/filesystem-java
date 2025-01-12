@@ -59,10 +59,16 @@ public class ClientContextHandler implements ContextCommandHandler {
             case "dir":
             case "ls":
                 if (ClientUtils.validateLsArg(command)) {
-                    commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LIST)
-                            .addArg(command[1])
-                            .build();
-                    break;
+                    if (command.length == 1) {
+                        commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LIST)
+                                .build();
+                        break;
+                    } else {
+                        commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LIST)
+                                .addArg(command[1])
+                                .build();
+                        break;
+                    }
                 }
                 else { return false; }
 
