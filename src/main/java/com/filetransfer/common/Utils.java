@@ -10,7 +10,10 @@ import java.net.URL;
 public class Utils {
 
     /**
-     * Métodos para devolver la IP privada y pública
+     * Métodos para devolver la IP privada y pública.
+     * NAT happens outside of the protocol.
+     * There is no way for your machine's kernel to know how your NAT box is mapping from external to internal IP addresses.
+     * Other answers here offer tricks involving methods of talking to outside web sites.
      */
     public static String getPrivateIP() {
         try {

@@ -26,6 +26,26 @@ public class CommandMessage extends Header implements Serializable {
         return mtype;
     }
 
+    public String getCommandString(CommandType commandType){
+        switch (commandType){
+            case CON_CHECK:
+                return "ccheck";
+            case FILE_DELETE:
+                return "rm";
+            case FILE_UPLOAD:
+                return "scp";
+            case FILE_DOWNLOAD:
+                return "scp";
+            case DIRECTORY_LIST:
+                return "pwd";
+            case DIRECTORY_OPEN:
+                return "cd";
+            case DIRECTORY_CREATE:
+                return "mkdir";
+            case DIRECTORY_LOCATION:
+                return "ls";
+        }
+    }
     public List<String> getArgs() {
         return new ArrayList<>(args);
     }

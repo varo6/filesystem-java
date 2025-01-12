@@ -37,6 +37,13 @@ public class SimpleServer implements Runnable {
                 switch(h.getType()) {
                     case Const.TYPE_COMMAND:
                         CommandMessage cm = (CommandMessage) h;
+                        /**
+                         * Comprobar si funciona, es una especie de echo en el servidor de lo que solicita el cliente
+                         * */
+                        CommandMessage.CommandType ct = cm.getCommandType();
+                        String mainCommand = cm.getCommandString(ct);
+                        String argsCommand= String.valueOf(cm.getArgs());
+                        System.out.println(mainCommand + argsCommand);
                         String response = server.processCommand(cm, path);
                         out.println(response);
                         break;
@@ -46,6 +53,7 @@ public class SimpleServer implements Runnable {
                         break;
 
                     case Const.TYPE_CLOSE:
+                        socket.close();
                         out.println("Goodbye!");
                         cleanup();
                         break;
