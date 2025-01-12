@@ -26,11 +26,14 @@ public class ClientUtils {
         return true;
     }
     public static boolean validateLsArg(String[] arg) {
-        if (arg.length != 2 || !arg[1].equals("-la") && !arg[1].equals("-l") && !arg[1].equals("-a")) {
+        if (arg.length == 1) {
+            return true;
+        } else if (arg.length == 2) {
+            return arg[1].equals("-la") || arg[1].equals("-l") || arg[1].equals("-a");
+        } else {
             System.out.println("Invalid command. Usage: ls [-la | -l | -a]");
             return false;
         }
-        return true;
     }
     public static boolean validateMkdirArg(String[] arg) {
         if (arg.length != 2) {

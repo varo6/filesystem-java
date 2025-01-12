@@ -7,6 +7,8 @@ import com.filetransfer.common.Const;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 
 public class SimpleServer implements Runnable {
     private final Socket socket;
@@ -14,6 +16,7 @@ public class SimpleServer implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private ObjectInputStream ois;
+    ServerCommandProcess server = new ServerCommandProcess();
 
     public SimpleServer(Socket socket) {
         this.socket = socket;
@@ -25,6 +28,7 @@ public class SimpleServer implements Runnable {
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
             ois = new ObjectInputStream(socket.getInputStream());
             out.println("Welcome to the server!");
+            Path path = Paths.get("./FileSystem/storage");
 
             while (running) {
 
@@ -33,13 +37,13 @@ public class SimpleServer implements Runnable {
                 switch(h.getType()) {
                     case Const.TYPE_COMMAND:
                         CommandMessage cm = (CommandMessage) h;
-                        //handle command
-                        if (cm.getCommandType() == CommandMessage.CommandType.CON_CHECK) {
-                            out.println("Recibido el objeto CommandMessage de prueba, tu argumento: " + cm.getArgs().get(0));
-                        }
+                        String response = server.processCommand(cm, path);
+                        out.println(response);
+                        break;
 
                     case Const.TYPE_TEXT:
                         //handle text
+                        break;
 
                     case Const.TYPE_CLOSE:
                         out.println("Goodbye!");
@@ -48,6 +52,7 @@ public class SimpleServer implements Runnable {
 
                     default:
                         System.out.println("Unknown message type");
+                        break;
                 }
 
             }

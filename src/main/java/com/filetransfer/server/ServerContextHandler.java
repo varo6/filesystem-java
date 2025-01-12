@@ -1,5 +1,6 @@
 package com.filetransfer.server;
 
+import com.filetransfer.client.SimpleClient;
 import com.filetransfer.common.Context;
 import com.filetransfer.common.ContextCommandHandler;
 import com.filetransfer.common.ContextManager;
@@ -9,9 +10,13 @@ import java.util.List;
 
 public class ServerContextHandler implements ContextCommandHandler {
     private ContextManager contextManager;
+    private SimpleServer server;
 
     public ServerContextHandler(ContextManager manager){
         this.contextManager = manager;
+    }
+    public void setServer(SimpleServer server) {
+        this.server = server;
     }
     @Override
     public boolean handleCommand(String[] command) throws Exception {

@@ -59,7 +59,6 @@ public class ClientContextHandler implements ContextCommandHandler {
             case "dir":
             case "ls":
                 if (ClientUtils.validateLsArg(command)) {
-                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_LIST)
                             .addArg(command[1])
                             .build();
@@ -69,7 +68,6 @@ public class ClientContextHandler implements ContextCommandHandler {
 
             case "mkdir":
                 if (ClientUtils.validateMkdirArg(command)) {
-                    System.out.println("tu comando es valido: " + command[0] + " " + command[1]);
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.DIRECTORY_CREATE)
                               .addArg(command[1])
                               .build();

@@ -21,7 +21,7 @@ public class ServerMain extends ContextManager {
         System.out.println("Server started listening on port " + port);
         System.out.println("Public Network: " + publicIP);
         System.out.println("Local Network: " + privateIP);
-        ConcurrentServer cs = new ConcurrentServer(port);
+        ConcurrentServer cs = new ConcurrentServer(port, this);
         cs.run();
     }
 
