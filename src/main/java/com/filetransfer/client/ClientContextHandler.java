@@ -5,9 +5,6 @@ import com.filetransfer.common.Context;
 import com.filetransfer.common.ContextCommandHandler;
 import com.filetransfer.common.ContextManager;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,11 +38,10 @@ public class ClientContextHandler implements ContextCommandHandler {
             case "scp":
                 if (ClientUtils.validateScpArg(command)) {
                     if (command[1].equals("-u")){
-                        Path path = Paths.get("./FileSystem/storage/" + command[2]);
-                        byte[] fileBytes = Files.readAllBytes(path);
                         commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
-                                .addArg(command[2])
-                                .setPayload(fileBytes)
+                                .addArg(command[1])
+                                .addArg(command[3])
+                                .setPayload("Aqui van todos los bytes del archivo a transmitir, la informacion util".getBytes())
                                 .build();
                         break;
                     } else if (command[1].equals("-d")){
