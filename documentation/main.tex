@@ -13,6 +13,8 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
+\usepackage{tikz}
+\usetikzlibrary{automata} % Carga la librería automata
 
 
 
@@ -158,7 +160,7 @@
     Todas las funciones que se ejecutan en el hashmap, reciben un objeto de tipo cm,
     que será el comando enviado por el cliente, ya habiendo pasado las validaciones tanto de tipado (el casting),
     como de argumentos (En la parte del cliente). Cada función del hashmap también recibe un objeto de tipo
-    \texbt{Path}, del paquete de java.nio, que será el directorio en el que se ejecutará el comando, el cual se
+    \textbf{Path}, del paquete de java.nio, que será el directorio en el que se ejecutará el comando, el cual se
     procesa al inicio de la clase. Este path es una combinación del basepath, donde se encontrará storage, y el
     clientpath, que será el directorio en el el servidor entiende que se encuentra el cliente. La función
     \textbf{directoryOpen} es la que actualiza el clientpath, y se ejecuta cuando el comando del cliente es
