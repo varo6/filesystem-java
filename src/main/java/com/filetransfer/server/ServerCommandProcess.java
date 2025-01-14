@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ServerCommandProcess {
+    private Path clientPath =  Paths.get("");
 
     private final Map<CommandMessage.CommandType, Function<Path, String>> commandHandlers;
     private CommandMessage cm;
@@ -30,9 +31,10 @@ public class ServerCommandProcess {
 
     public String processCommand(CommandMessage cm, Path basePath) {
         this.cm = cm;
+        Path fullPath = basePath.resolve(clientPath);
         Function<Path, String> handler = commandHandlers.get(cm.getCommandType());
         if (handler != null) {
-            return handler.apply(basePath);
+            return handler.apply(fullPath);
         } else {
             return "Comando no reconocido";
         }
@@ -104,8 +106,29 @@ public class ServerCommandProcess {
     }
 
     private String directoryOpen(Path path) {
-        // PONER HEAD EN PATH + GETARG
-        return "Abriendo directorio: " + path.toString();
-    }
+        String arg = cm.getArgs().get(0);
 
+        switch (arg) {
+            case "..":
+                if (clientPath.toString().isEmpty()) {
+                    return "Estás en la raíz del proyecto. No se puede subir más.";
+                } else {
+                    clientPath = clientPath.getParent();
+                    if (clientPath==null){clientPath = Paths.get("");}
+
+                    return "Subiendo un nivel de carpeta. Nueva ruta: " + clientPath;
+                }
+            case ".":
+                return "Permaneciendo en el directorio actual: " + clientPath;
+            default:
+                // Manejar otros casos (por ejemplo, cambiar a un directorio específico)
+                path = path.resolve(arg);
+                if (Files.isDirectory(path)) {
+                    this.clientPath = clientPath.resolve(arg);
+                    return "Cambiando al directorio: " + clientPath;
+                } else {
+                    return "La ruta especificada no es un directorio válido.";
+                }
+        }
+    }
 }
