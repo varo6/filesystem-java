@@ -3,23 +3,19 @@ package com.filetransfer.client;
 public class ClientUtils {
 
     public static boolean validateScpArg(String[] arg) {
-        if (arg.length != 3 && arg.length != 4) {
-            System.out.println("Invalid command. Usage: scp [-u | -d] [file] [-r (optional)]");
+        if (arg.length != 3) {
+            System.out.println("Invalid command. Usage: scp [-u | -d] [file] ");
             return false;
         }
-        if (arg.length == 4 && !arg[3].equals("-r")) {
-            System.out.println("Invalid command. Usage: scp [-u | -d] [file] [-r (optional)]");
+        if (arg.length == 3 && !arg[1].equals("-u") && !arg[1].equals("-d")) {
+            System.out.println("Invalid command. Usage: scp [-u | -d] [file]");
             return false;
         }
         return true;
     }
     public static boolean validateRmArg(String[] arg) {
-        if (arg.length != 2 && arg.length != 3) {
-            System.out.println("Invalid command. Usage: rm [file] [-r (optional)]");
-            return false;
-        }
-        if (arg.length == 3 && !arg[2].equals("-r")) {
-            System.out.println("Invalid command. Usage: rm [file] [-r (optional)]");
+        if (arg.length != 2) {
+            System.out.println("Invalid command. Usage: rm [file]");
             return false;
         }
 

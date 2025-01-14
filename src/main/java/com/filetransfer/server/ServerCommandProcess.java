@@ -45,6 +45,18 @@ public class ServerCommandProcess {
     }
 
     private String fileUpload(Path path) {
+        byte[] pd = cm.getPayload();
+        Path filename = Paths.get(""+cm.getArgs().get(0));
+        path = path.resolve(filename);
+        try {
+            Files.write(path, pd);
+
+        }
+        catch(IOException e){
+            return "error"+e.getMessage();
+
+        }
+
         return "Subiendo archivo a: " + path.toString();
     }
 
