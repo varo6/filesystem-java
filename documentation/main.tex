@@ -149,8 +149,43 @@
     \section{SimpleClient.java}
 
     \chapter{server}
+
+    \section{ServerMain.java}
+
+    Al inicio del contexto en el servidor, se crea una instancia de \text{ServerMain}, que actúa como el punto de
+    entrada principal para iniciar un servidor de transferencia de archivos. La clase extiende ContextManager,
+    por lo que hereda funcionalidades relacionadas con la gestión del contexto. Al instanciarse, ServerMain recibe
+    un puerto como parámetro y utiliza métodos de la clase Utils (getPublicIP() y getPrivateIP())
+    para obtener tanto la dirección IP pública como la privada del
+    servidor. Estas direcciones IP se almacenan en variables de instancia y se muestran por consola cuando el servidor se inicia.
+
+    El método start()
+    es el encargado de iniciar el servidor. Primero, imprime un mensaje
+    indicando que el servidor ha comenzado a escuchar en el puerto
+    especificado, junto con las direcciones IP pública y privada. Luego,
+    crea una instancia de ConcurrentServer, pasando el puerto y la propia instancia de ServerMain (que actúa como ContextManager) como argumentos. Finalmente, llama al método run() de ConcurrentServer,
+    lo que inicia el servidor concurrente y comienza a aceptar conexiones
+    de clientes. Este diseño permite que el servidor maneje múltiples
+    conexiones de manera eficiente, utilizando un pool de hilos para
+    gestionar cada cliente de forma independiente.
+
+
+
     \section{ConcurrentServer.java}
+
+    El concurrentserver, cuyo nombre viene dado por las prácticas aunque se haya modificado, manejará múltiples
+    conexiones de clientes utilizando un pool de hilos. Cuando el servidor se inicia, escucha en un puerto
+    específico y declara un \texttt{ExecutorService}  con un número fijo de hilos definido por
+    \texttt{Const.MAX_THREADS}. El servidor entra en un bucle infinito donde espera conexiones de clientes. Cada
+    vez que un cliente se conecta, se crea obtiene un \texttt{Socket} que
+    representa la conexión con ese cliente y muestra la dirección del cliente
+    conectado. Para manejar la conexión, el servidor crea un nuevo hilo en el pool de hilos, donde se instancia un
+    objeto \texttt{SimpleServer} pasándole el socket del cliente y se llama al método `run()`. Este método es el
+    encargado de gestionar la comunicación con el cliente. De esta forma que el servidor atienda a varios
+    clientes de manera simultánea.
+
     \section{ServerCommandProcess.java}
+
     El ServerCommandProcess, es el encargado de procesar los objetos \textbf{CommandMessage} que recibe el
     servidor, y actuar en consecuencia. Cada comando requiere una función propia, y al optar
     por hacerlo con un enfoque distinto al de clase, donde cada comando podría ser una clase distinta y que cada
@@ -167,6 +202,10 @@
     \textbf{cd}. Se tiene en cuenta que el cliente no pueda salir del directorio base.
 
     \section{ServerContextHandler.java}
-    \section{ServerMain.java}
+
+    El serverContextHandler hace función similar que el clientContextHandler, pero en menor medida, ya que el
+    dispositivo que actúa como servidor no tiene que enviar muchos comandos, por lo que tiene comandos basicos como
+    --close o --help
+
 
 \end{document}
