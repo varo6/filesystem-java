@@ -46,16 +46,15 @@ public class SimpleClient {
 
     public void runClient() throws IOException {
         try {
+            ensureDirectoryStructure();
             setState(ConnectionState.CONNECTING);
             socket = new Socket(host, port);
             setState(ConnectionState.CONNECTED);
             System.out.println("Connecting to server with = " + socket);
 
-            // Importante: primero crear los streams de objetos
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
 
-            // Luego los streams de texto
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
 
@@ -78,33 +77,25 @@ public class SimpleClient {
         }
     }
 
+    private void ensureDirectoryStructure() {
+        Path storagePath = Paths.get("FileSystem/storage");
+        try {
+            Files.createDirectories(storagePath);
+            System.out.println("Storage directory: " + storagePath.toAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void receiveMessages() {
         try {
             while (running) {
-                try {
-                    String textMessage = in.readLine();  // Para mensajes de texto normales
-                    if (textMessage != null) {
-                        System.out.println("Server: " + textMessage);
-                    }
-
-                    if (ois.available() > 0) {  // Si hay datos disponibles para leer
-                        Object received = ois.readObject();
-                        if (received instanceof CommandMessage) {
-                            CommandMessage response = (CommandMessage) received;
-                            if (response.getCommandType() == CommandMessage.CommandType.FILE_DOWNLOAD) {
-                                String localFileName = response.getArgs().get(2);
-                                Path downloadPath = Paths.get("FileSystem/storage", localFileName);
-                                Files.createDirectories(downloadPath.getParent());
-                                Files.write(downloadPath, response.getPayload());
-                                System.out.println("Archivo descargado exitosamente en: " + downloadPath);
-                            }
-                        }
-                    }
-                } catch (IOException e) {
-                    if (running) {
-                        System.err.println("Error en la comunicación: " + e.getMessage());
-                    }
-                    break;
+                Object received = ois.readObject();
+                if (received instanceof CommandMessage) {
+                    CommandMessage response = (CommandMessage) received;
+                    handleCommandResponse(response);
+                } else if (received instanceof String) {
+                    System.out.println("Server: " + received);
                 }
             }
         } catch (Exception e) {
@@ -113,6 +104,21 @@ public class SimpleClient {
             }
         }
     }
+
+    private void handleCommandResponse(CommandMessage response) {
+        try {
+            if (response.getCommandType() == CommandMessage.CommandType.FILE_DOWNLOAD) {
+                String localFileName = response.getArgs().get(2);
+                Path downloadPath = Paths.get("FileSystem/storage", localFileName);
+                Files.createDirectories(downloadPath.getParent());
+                Files.write(downloadPath, response.getPayload());
+                System.out.println("Archivo descargado exitosamente en: " + downloadPath);
+            }
+        } catch (IOException e) {
+            System.err.println("Error handling response: " + e.getMessage());
+        }
+    }
+
 
     public void sendMessage(String[] message) {
         if (state != ConnectionState.CONNECTED) {
@@ -179,7 +185,6 @@ public class SimpleClient {
             System.err.println("Error during cleanup: " + e.getMessage());
         }
     }
-
 
 public void stopClient() {
         running = false;

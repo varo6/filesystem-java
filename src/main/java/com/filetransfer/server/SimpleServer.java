@@ -14,7 +14,6 @@ import java.nio.file.Path;
 public class SimpleServer implements Runnable {
     private final Socket socket;
     private volatile boolean running = true;
-    private PrintWriter out;
     private BufferedReader in;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
@@ -27,73 +26,86 @@ public class SimpleServer implements Runnable {
     @Override
     public void run() {
         try {
-            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+            ensureDirectoryStructure();
             oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.flush();
             ois = new ObjectInputStream(socket.getInputStream());
-            out.println("Welcome to the server!");
+            sendMessage("Welcome to the server!");
             Path path = Paths.get("./FileSystem/storage");
 
             while (running) {
-                Object creceived = ois.readObject();
-                // Leer el header porque todos los mensajes tendrán header
-                Header h= (Header) creceived;
-                switch(h.getType()) {
-                    case Const.TYPE_COMMAND:
-                        CommandMessage cm = (CommandMessage) h;
-                        if (cm.getCommandType() == CommandMessage.CommandType.FILE_DOWNLOAD) {
-                            // Buscamos el archivo en el storage del servidor
-                            Path serverFilePath = Paths.get("FileSystem/storage", cm.getArgs().get(1));
-                            if (Files.exists(serverFilePath)) {
-                                byte[] fileContent = Files.readAllBytes(serverFilePath);
-                                CommandMessage response = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
-                                        .addArg("-d")
-                                        .addArg(cm.getArgs().get(1))
-                                        .addArg(cm.getArgs().get(2))
-                                        .setPayload(fileContent)
-                                        .build();
-                                oos.writeObject(response);
-                                oos.flush();
-                                out.println("Archivo enviado exitosamente");
-                            } else {
-                                out.println("Archivo no encontrado en el servidor: " + serverFilePath);
-                            }
-                        } else {
-                            String response = server.processCommand(cm, path);
-                            out.println(response);
-                        }
-                        break;
-
-                    case Const.TYPE_TEXT:
-                        //handle text
-                        break;
-
-                    case Const.TYPE_CLOSE:
-                        socket.close();
-                        out.println("Goodbye!");
-                        cleanup();
-                        break;
-
-                    default:
-                        System.out.println("Unknown message type");
-                        break;
+                Object received = ois.readObject();
+                if (received instanceof CommandMessage) {
+                    handleCommand((CommandMessage) received, path);
                 }
-
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (running && !socket.isClosed()) {
                 System.err.println("Error en la comunicación: " + e.getMessage());
             }
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } finally {
             cleanup();
+        }
+    }
+
+
+    private void handleCommand(CommandMessage cm, Path path) {
+        try {
+            if (cm.getCommandType() == CommandMessage.CommandType.FILE_DOWNLOAD) {
+                handleFileDownload(cm, path);
+            } else {
+                String response = server.processCommand(cm, path);
+                sendMessage(response);
+            }
+        } catch (Exception e) {
+            System.err.println("Error handling command: " + e.getMessage());
+        }
+    }
+
+    private void handleFileDownload(CommandMessage cm, Path path) {
+        try {
+            Path serverFilePath = path.resolve(cm.getArgs().get(1));
+            if (Files.exists(serverFilePath)) {
+                byte[] fileContent = Files.readAllBytes(serverFilePath);
+                CommandMessage response = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
+                        .addArg("-d")
+                        .addArg(cm.getArgs().get(1))
+                        .addArg(cm.getArgs().get(2))
+                        .setPayload(fileContent)
+                        .build();
+                oos.writeObject(response);
+                oos.flush();
+                sendMessage("Archivo enviado exitosamente");
+            } else {
+                sendMessage("Archivo no encontrado: " + serverFilePath);
+            }
+        } catch (IOException e) {
+            System.err.println("Error en download: " + e.getMessage());
+        }
+    }
+
+    private void sendMessage(String message) {
+        try {
+            oos.writeObject(message);
+            oos.flush();
+        } catch (IOException e) {
+            System.err.println("Error sending message: " + e.getMessage());
+        }
+    }
+
+    private void ensureDirectoryStructure() {
+        Path storagePath = Paths.get("FileSystem/storage");
+        try {
+            Files.createDirectories(storagePath);
+            System.out.println("Storage directory: " + storagePath.toAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void cleanup() {
         running = false;
         try {
-            if (out != null) out.close();
             if (in != null) in.close();
             if (!socket.isClosed()) socket.close();
             System.out.println("Cliente desconectado");

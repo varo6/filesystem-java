@@ -46,8 +46,8 @@ public class ClientContextHandler implements ContextCommandHandler {
                 }
 
                 if (command[1].equals("-u")) {
-                    // Para upload, buscar en FileSystem/storage local
-                    Path localPath = Paths.get("FileSystem/storage", command[2]);
+                    Path localPath = Paths.get("FileSystem/storage").resolve(command[2]);
+                    System.out.println("Intentando acceder a: " + localPath.toAbsolutePath());
                     if (!Files.exists(localPath)) {
                         System.out.println("Error: El archivo local no existe: " + localPath);
                         return false;
