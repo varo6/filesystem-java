@@ -1,15 +1,27 @@
 package com.filetransfer.client;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class ClientUtils {
 
-    public static boolean validateScpArg(String[] arg) {
-        if (arg.length != 3 && arg.length != 4) {
-            System.out.println("Invalid command. Usage: scp [-u | -d] [file] [-r (optional)]");
+    public static boolean validateScpArg(String[] command) {
+        if (command.length < 3) {
+            System.out.println("Uso: scp -u/-d <origen> <destino>");
             return false;
         }
-        if (arg.length == 4 && !arg[3].equals("-r")) {
-            System.out.println("Invalid command. Usage: scp [-u | -d] [file] [-r (optional)]");
+        if (!command[1].equals("-u") && !command[1].equals("-d")) {
+            System.out.println("Opción no válida. Use -u para subir o -d para descargar");
             return false;
+        }
+        // Para upload (-u): El archivo local (origen) debe existir
+        if (command[1].equals("-u")) {
+            Path localPath = Paths.get(command[2]);
+            if (!Files.exists(localPath)) {
+                System.out.println("Error: El archivo local no existe: " + command[2]);
+                return false;
+            }
         }
         return true;
     }

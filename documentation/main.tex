@@ -198,7 +198,7 @@
     El concurrentserver, cuyo nombre viene dado por las prácticas aunque se haya modificado, manejará múltiples
     conexiones de clientes utilizando un pool de hilos. Cuando el servidor se inicia, escucha en un puerto
     específico y declara un \texttt{ExecutorService}  con un número fijo de hilos definido por
-    \texttt{Const.MAX_THREADS}. El servidor entra en un bucle infinito donde espera conexiones de clientes. Cada
+    \texttt{Const.MAX\_THREADS}. El servidor entra en un bucle infinito donde espera conexiones de clientes. Cada
     vez que un cliente se conecta, se crea obtiene un \texttt{Socket} que
     representa la conexión con ese cliente y muestra la dirección del cliente
     conectado. Para manejar la conexión, el servidor crea un nuevo hilo en el pool de hilos, donde se instancia un

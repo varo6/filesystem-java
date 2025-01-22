@@ -5,6 +5,10 @@ import com.filetransfer.common.Context;
 import com.filetransfer.common.ContextCommandHandler;
 import com.filetransfer.common.ContextManager;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,23 +40,38 @@ public class ClientContextHandler implements ContextCommandHandler {
                 break;
 
             case "scp":
-                if (ClientUtils.validateScpArg(command)) {
-                    if (command[1].equals("-u")){
-                        commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
-                                .addArg(command[1])
-                                .addArg(command[3])
-                                .setPayload("Aqui van todos los bytes del archivo a transmitir, la informacion util".getBytes())
-                                .build();
-                        break;
-                    } else if (command[1].equals("-d")){
-                        commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
-                                .addArg(command[1])
-                                .addArg(command[3])
-                                .build();
-                        break;
-                    }
+                if (command.length < 4) {
+                    System.out.println("Uso: scp -u/-d <origen> <destino>");
+                    return false;
                 }
-                else { return false; }
+
+                if (command[1].equals("-u")) {
+                    // Para upload, buscar en FileSystem/storage local
+                    Path localPath = Paths.get("FileSystem/storage", command[2]);
+                    if (!Files.exists(localPath)) {
+                        System.out.println("Error: El archivo local no existe: " + localPath);
+                        return false;
+                    }
+                    try {
+                        byte[] fileContent = Files.readAllBytes(localPath);
+                        commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_UPLOAD)
+                                .addArg("-u")
+                                .addArg(command[2])  // nombre del archivo para el servidor
+                                .addArg(command[3])  // destino en el servidor
+                                .setPayload(fileContent)
+                                .build();
+                    } catch (IOException e) {
+                        System.err.println("Error al leer el archivo: " + e.getMessage());
+                        return false;
+                    }
+                } else if (command[1].equals("-d")) {
+                    commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
+                            .addArg("-d")
+                            .addArg(command[2])  // archivo en el servidor
+                            .addArg(command[3])  // destino local
+                            .build();
+                }
+                break;
 
             case "dir":
             case "ls":

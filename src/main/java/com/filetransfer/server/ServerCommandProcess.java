@@ -45,11 +45,38 @@ public class ServerCommandProcess {
     }
 
     private String fileUpload(Path path) {
-        return "Subiendo archivo a: " + path.toString();
+        try {
+            String remotePath = cm.getArgs().get(1);
+            Path fullPath = path.resolve(remotePath);
+            byte[] fileContent = cm.getPayload();
+
+            Files.createDirectories(fullPath.getParent());
+
+            Files.write(fullPath, fileContent);
+            return "Archivo subido exitosamente a: " + fullPath;
+        } catch (IOException e) {
+            return "Error al subir el archivo: " + e.getMessage();
+        }
     }
 
     private String fileDownload(Path path) {
-        return "Descargando archivo de: " + path.toString();
+        try {
+            String remotePath = cm.getArgs().get(1);
+            Path fullPath = path.resolve(remotePath);
+
+            if (!Files.exists(fullPath)) {
+                return "[Error]: El archivo no existe en el servidor";
+            }
+
+            byte[] fileContent = Files.readAllBytes(fullPath);
+            CommandMessage response = new CommandMessage.Builder(CommandMessage.CommandType.FILE_DOWNLOAD)
+                    .addArg("file")
+                    .setPayload(fileContent)
+                    .build();
+            return "Archivo encontrado y listo para descargar";
+        } catch (IOException e) {
+            return "Error al leer el archivo: " + e.getMessage();
+        }
     }
 
     private String directoryCreate(Path path) {

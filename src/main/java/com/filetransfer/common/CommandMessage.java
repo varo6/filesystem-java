@@ -10,6 +10,7 @@ public class CommandMessage extends Header implements Serializable {
     protected List<String> args;
     private CommandType  mtype;
     private byte[] payload;
+    private long fileSize;
 
     public enum CommandType {
         FILE_UPLOAD,
@@ -69,6 +70,7 @@ public class CommandMessage extends Header implements Serializable {
         private CommandType cType;
         private List<String> args = new ArrayList<>();
         private byte[] payload;
+        private long fileSize;
 
         public Builder(CommandType commandType){
             cType = commandType;
@@ -81,10 +83,16 @@ public class CommandMessage extends Header implements Serializable {
 
         public Builder setPayload(byte[] payload) {
             this.payload = payload;
+            this.fileSize = payload.length;
             return this;
         }
         public CommandMessage build() throws IllegalArgumentException {
-            return new CommandMessage(this);
+            CommandMessage message = new CommandMessage(this);
+            message.mtype = this.cType;
+            message.args = this.args;
+            message.payload = this.payload;
+            message.fileSize = this.fileSize;
+            return message;
         }
 
     }

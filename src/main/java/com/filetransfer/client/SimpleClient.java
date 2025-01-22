@@ -5,6 +5,9 @@ import com.filetransfer.common.CommandMessage;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class SimpleClient {
@@ -15,6 +18,7 @@ public class SimpleClient {
     private PrintWriter out;
     private BufferedReader in;
     private ObjectOutputStream oos;
+    private ObjectInputStream ois;
     private Scanner scanner;
 
     private final Object connectionLock = new Object();
@@ -47,16 +51,18 @@ public class SimpleClient {
             setState(ConnectionState.CONNECTED);
             System.out.println("Connecting to server with = " + socket);
 
+            // Importante: primero crear los streams de objetos
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            ois = new ObjectInputStream(socket.getInputStream());
+
+            // Luego los streams de texto
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-            oos = new ObjectOutputStream(socket.getOutputStream());
 
-            // Thread para recibir mensajes del servidor
             Thread receiverThread = new Thread(this::receiveMessages);
             receiverThread.setDaemon(true);
             receiverThread.start();
 
-            // Mantener la conexión viva
             while (running) {
                 try {
                     Thread.sleep(100);
@@ -74,16 +80,37 @@ public class SimpleClient {
 
     private void receiveMessages() {
         try {
-            String message;
-            while (running && (message = in.readLine()) != null) {
-                System.out.println("Server: " + message);
+            while (running) {
+                try {
+                    String textMessage = in.readLine();  // Para mensajes de texto normales
+                    if (textMessage != null) {
+                        System.out.println("Server: " + textMessage);
+                    }
+
+                    if (ois.available() > 0) {  // Si hay datos disponibles para leer
+                        Object received = ois.readObject();
+                        if (received instanceof CommandMessage) {
+                            CommandMessage response = (CommandMessage) received;
+                            if (response.getCommandType() == CommandMessage.CommandType.FILE_DOWNLOAD) {
+                                String localFileName = response.getArgs().get(2);
+                                Path downloadPath = Paths.get("FileSystem/storage", localFileName);
+                                Files.createDirectories(downloadPath.getParent());
+                                Files.write(downloadPath, response.getPayload());
+                                System.out.println("Archivo descargado exitosamente en: " + downloadPath);
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    if (running) {
+                        System.err.println("Error en la comunicación: " + e.getMessage());
+                    }
+                    break;
+                }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (running) {
                 System.err.println("Error receiving message: " + e.getMessage());
             }
-        } finally {
-            setState(ConnectionState.DISCONNECTED);
         }
     }
 
@@ -102,14 +129,31 @@ public class SimpleClient {
         }
     }
 
-    public void sendCommand(CommandMessage cm){
+    public void sendCommand(CommandMessage cm) {
         if (state != ConnectionState.CONNECTED) {
             System.err.println("Cannot send command. Client is not connected.");
             return;
         }
-        if (out != null && running) {
-            try{
+        if (oos != null && running) {
+            try {
+                if (cm.getCommandType() == CommandMessage.CommandType.FILE_UPLOAD) {
+                    String localPath = cm.getArgs().get(1); // ruta local
+                    Path path = Paths.get(localPath);
+                    if (!Files.exists(path)) {
+                        System.err.println("Error: El archivo local no existe: " + localPath);
+                        return;
+                    }
+                    // Actualizar el payload con el contenido del archivo
+                    byte[] fileContent = Files.readAllBytes(path);
+                    cm = new CommandMessage.Builder(cm.getCommandType())
+                            .addArg(cm.getArgs().get(0))
+                            .addArg(cm.getArgs().get(1))
+                            .addArg(cm.getArgs().get(2))
+                            .setPayload(fileContent)
+                            .build();
+                }
                 oos.writeObject(cm);
+                oos.flush();
             } catch (Exception e) {
                 System.err.println("Error while processing command: " + e.getMessage());
             }
