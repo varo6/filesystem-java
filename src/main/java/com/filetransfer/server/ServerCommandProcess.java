@@ -46,7 +46,7 @@ public class ServerCommandProcess {
 
     private String fileUpload(Path path) {
         try {
-            String remotePath = cm.getArgs().get(1);
+            String remotePath = cm.getArgs().get(2);
             Path fullPath = path.resolve(remotePath);
             byte[] fileContent = cm.getPayload();
 

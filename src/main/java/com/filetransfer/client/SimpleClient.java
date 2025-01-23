@@ -144,7 +144,7 @@ public class SimpleClient {
             try {
                 if (cm.getCommandType() == CommandMessage.CommandType.FILE_UPLOAD) {
                     String localPath = cm.getArgs().get(1); // ruta local
-                    Path path = Paths.get(localPath);
+                    Path path = Paths.get("./FileSystem/storage").resolve(localPath);
                     if (!Files.exists(path)) {
                         System.err.println("Error: El archivo local no existe: " + localPath);
                         return;

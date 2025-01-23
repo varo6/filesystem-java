@@ -17,7 +17,7 @@ public class ClientUtils {
         }
         // Para upload (-u): El archivo local (origen) debe existir
         if (command[1].equals("-u")) {
-            Path localPath = Paths.get(command[2]);
+            Path localPath = Paths.get("FileSystem/storage").resolve(command[2]);
             if (!Files.exists(localPath)) {
                 System.out.println("Error: El archivo local no existe: " + command[2]);
                 return false;
