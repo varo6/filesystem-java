@@ -133,7 +133,29 @@ Por otro lado, la estructura de archivos finalmente quedará organizada de la si
 
 \chapter{Filetransfer}
 \section{Uso del programa}
-varo
+
+Para poder utilizar el programa, se debe ejecutar el archivo compilado con Gradle \textbf{FileSystem.jar}
+mediante la terminal de comandos. Se debe ejecutar el comando \textbf{java -jar FileSystem.jar}. Tras ejecutar
+el archivo, se mostrará una interfaz gráfica que simula una ventana de comandos. En este momento el usuario
+estará en el contexto del sistema, a la espera de recibir un comando, el cual puede ser \textbf{--server} si se
+quiere iniciar como servidor, o \textbf{--client} si se quiere una de cliente.
+
+Comandos disponibles por parte del cliente:
+
+\begin{itemize}
+	\item \textbf{ls [ -l (optional) ]}: Listar archivos del servidor.
+	\item \textbf{scp -u / -d [file]}: Subir o un archivo al servidor o descargarlo del directorio del servidor.
+	\item \textbf{mkdir [directory]}: Crear una carpeta en el servidor.
+	\item \textbf{pwd}: Mostrar el directorio actual del servidor.
+	\item \textbf{rm [file] [-r (optional)]}: Eliminar un archivo del servidor.
+	\item \textbf{rn <current> <new>}: renombrar un archivo del servidor.
+	\item \textbf{cd [directory]}: Cambiar de directorio en el servidor.
+	\item \textbf{checkCon [message (optional)]:} Comprobar la conexión con el servidor.
+	\item \textbf{echo [message]}: Enviar un mensaje al servidor.
+	\item \textbf{--close}: Salir del programa.
+	\item \textbf{help / ?}: Mostrar la ayuda.
+\end{itemize}
+
 \section{Main.java}
 Main inicializa FileSystem.
 \section{FileSystem.java}
@@ -205,10 +227,23 @@ De forma similar a la que hacemos en clase, al recibir el objeto se hará un \te
 En caso de que se haya recibido un \textbf{CommandMessage}, se llamará a \textbf{handleCommandResponse}, como el servidor sabemos que sólo nos enviará un commandmessage en caso de que sea un archivo, se desempaquetará el payload de bytes que está en el comando y se escribirá en la carpeta seleccionada. No se contempla que el servidor use el CommandMessage de otra forma, pues para eso se usarán Strings.
 
 \section{ClientContextHandler.java}
-varo
+
+El clientContextHandler es el encargado de manejar los comandos que enviará el cliente, y de enviarlos al
+servidor. Contiene todos los posibles comandos que puede enviar el usuario para interactuar con la aplicación.
+No serán sólo los de conexión, sino los de ayuda y cerrar.
+
+Según el comando que se reciba, tendrá una validación de argumentos para garantizar el correcto funcionamiento y
+evitar posibles errores antes de llegar al servidor. Cada posible comando tiene su propia función validadora.
+Por ejemplo: el comando de listar archivos \textbf{ls} tendrá su función validadora \textbf{validateLsArgs}, que
+comprobará tanto la cantidad de argumentos que se le pasa, como el contenido que incluye.
+
+Si el comando pasa la validación, se construirá el objeto CommandMessage correspondiente gracias a su función \textbf{builder}. Será el objeto que se envíe finalmente al servidor.
 
 \section{ClientUtils.java}
-varo
+
+ClientUtils contiene todas las validaciones que se comentan anteriormente. No será una clase que se cree con su
+constructor y atributos, sino que se utilizarán las funciones de validación que contiene.
+
 
 \chapter{server}
 
