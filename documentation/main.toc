@@ -16,7 +16,7 @@
 \contentsline {section}{\numberline {3.7}ContextObserver.java}{5}{section.3.7}%
 \contentsline {section}{\numberline {3.8}Header.java}{5}{section.3.8}%
 \contentsline {section}{\numberline {3.9}Utils.java}{5}{section.3.9}%
-\contentsline {chapter}{\numberline {4}client}{6}{chapter.4}%
+\contentsline {chapter}{\numberline {4}Client}{6}{chapter.4}%
 \contentsline {section}{\numberline {4.1}ClientMain.java}{6}{section.4.1}%
 \contentsline {section}{\numberline {4.2}SimpleClient.java}{6}{section.4.2}%
 \contentsline {section}{\numberline {4.3}ClientContextHandler.java}{7}{section.4.3}%
@@ -27,3 +27,4 @@
 \contentsline {section}{\numberline {5.3}SimpleServer.java}{9}{section.5.3}%
 \contentsline {section}{\numberline {5.4}ServerCommandProcess.java}{9}{section.5.4}%
 \contentsline {section}{\numberline {5.5}ServerContextHandler.java}{9}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Guía de uso}{11}{chapter.6}%
