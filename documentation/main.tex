@@ -89,7 +89,7 @@ servidor.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.20]{resources/img/diagrama.png}
+	\includegraphics[scale=0.40]{resources/img/diagrama.png}
 	\caption{Máquina de estados diseñada para el proyecto.}
 	\label{fig:main}
 \end{figure}
@@ -137,6 +137,7 @@ organizada de la siguiente manera:
 
 \chapter{filetransfer}
 \section{Uso del programa}
+varo
 \section{FileSystem.java}
 \section{Main.java}
 \section{SystemContextHandler.java}
@@ -170,10 +171,29 @@ Comandos disponibles:
 \section{Utils.java}
 
 \chapter{client}
-\section{ClientContextHandler.java}
 \section{ClientMain.java}
-\section{ClientUtils.java}
+
+El \textbf{ClientMain} es la primera instancia que se crea al hacer el cliente. En el momento que en la consola se elige el contexto con --client, se crea una instancia principal que gestiona el puerto y el host que se le envía, e intenta iniciar una nueva conexión. En caso de que exista un servidor escuchando en el host y puerto seleccionado, se creará un \textbf{socket}, una clase de \textbf{SimpleClient} que hará las operaciones del cliente, y se le pasará esta instancia de \textbf{SimpleClient} al ContextHandler, que hemos visto que manejará el puente entre los \textbf{tres contextos posibles.}
+Como se ha comentado, las operaciones principales pasan a ser parte del \textbf{simpleClient}
+
 \section{SimpleClient.java}
+
+Al iniciar un SimpleClient, hay operaciones iniciales que se deben hacer para mantener un contexto y un estado del programa. Una vez creada la instancia, se ejecuta la función \textbf{setState} que cambia el estado al enum de estado de conexión \textbf{CONNECTED} si la conexión ha sido correcta. Esto ayudará a comunicarse con el servidor y que se pueda saber su estado de conexión.
+A su vez, al inicio igualmente, se comprueba si la carpeta \textbf{Storage} está creada, ya que será la raíz principal de los directorios a compartir o descargar. Se llama a la función \textbf{EnsureDirectoryStructure} y si no está creada la creará mediante la clase Files del paquete java.nio.
+
+Una vez se ha inicializado y creados los sockets, se procede al recibimiento y envío de objetos. Para ello, Se tienen un \textbf{ObjectOutputStream y ObjectInputStream} que vienen de sus respectivos streams, que servirán para el envío y recepción de objetos.
+
+Para el recibimiento de mensajes, se maneja con dos métodos: \textbf{recieveMessages()} y \textbf{handleCommandResponse()}. Principalmente en el bucle, se llama desde un hilo a \textbf{recieveMessages}, cuya finalidad será con el objeto \textbf{ObjectInputStream} creado, se llama a su método \textbf{readObject}, que nos devolverá el objeto cuando se nos envíe desde el otro extremo, que en este caso será el servidor.
+
+De forma similar a la que hacemos en clase, al recibir el objeto se hará un \textbf{casting} que compara de qué tipo es el objeto que previamente ha enviado el servidor. Se comparará si es un objeto de tipo \textbf{CommandMessage} o un \textbf{String}. No se contempla un tipo distinto de objeto. El \textbf{String} vendrá de parte del servidor si éste nos quiere enviar un mensaje, por lo que simplemente imprimirá por pantalla lo que se recibe.
+
+En caso de que se haya recibido un \textbf{CommandMessage}, se llamará a \textbf{handleCommandResponse}, como el servidor sabemos que sólo nos enviará un commandmessage en caso de que sea un archivo, se desempaquetará el payload de bytes que está en el comando y se escribirá en la carpeta seleccionada. No se contempla que el servidor use el CommandMessage de otra forma, pues para eso se usarán Strings.
+
+\section{ClientContextHandler.java}
+varo
+
+\section{ClientUtils.java}
+varo
 
 \chapter{server}
 
