@@ -30,12 +30,23 @@ public class SystemContextHandler implements ContextCommandHandler {
                 manager.stopActiveThread();
 
                 Thread clientThread = new Thread(() -> {
-                    ClientMain client = new ClientMain(manager.getAddress(), manager.getPort(),manager);
-                    try {
-                        client.start();
-                    } catch (IOException e) {
-                        System.err.println("Error in client: " + e.getMessage());
+                    if(command.length == 3){
+                        ClientMain client = new ClientMain(command[1], Integer.parseInt(command[2]),manager);
+                        try {
+                            client.start();
+                        } catch (IOException e) {
+                            System.err.println("Error in client: " + e.getMessage());
+                        }
                     }
+                    else{
+                        ClientMain client = new ClientMain(manager.getAddress(), manager.getPort(),manager);
+                        try {
+                            client.start();
+                        } catch (IOException e) {
+                            System.err.println("Error in client: " + e.getMessage());
+                        }
+                    }
+
                 });
                 manager.setActiveThread(clientThread);
                 manager.getActiveThread().start();
@@ -45,13 +56,25 @@ public class SystemContextHandler implements ContextCommandHandler {
             case "--server":
                 manager.stopActiveThread();
 
+
                  Thread serverThread = new Thread(() -> {
-                    ServerMain server = new ServerMain(manager.getPort());
-                    try {
-                        server.start();
-                    } catch (IOException e) {
-                        System.err.println("Error in server: " + e.getMessage());
-                    }
+                     if(command.length == 2){
+                         ServerMain server = new ServerMain(Integer.parseInt(command[1]));
+                         try {
+                             server.start();
+                         } catch (IOException e) {
+                             System.err.println("Error in server: " + e.getMessage());
+                         }
+                     }
+                     else {
+                         ServerMain server = new ServerMain(manager.getPort());
+                         try {
+                             server.start();
+                         } catch (IOException e) {
+                             System.err.println("Error in server: " + e.getMessage());
+                         }
+                     }
+
                 });
                 manager.setActiveThread(serverThread);
                 manager.getActiveThread().start();
@@ -75,6 +98,6 @@ public class SystemContextHandler implements ContextCommandHandler {
 
     @Override
     public List<String> getAvailableCommands() {
-        return Arrays.asList("--client", "--server");
+        return Arrays.asList("--client [address] [port]", "--server [port]", "--exit");
     }
 }

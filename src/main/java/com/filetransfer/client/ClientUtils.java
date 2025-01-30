@@ -51,6 +51,8 @@ public class ClientUtils {
         if (arg.length < 2) {
             System.out.println("Invalid command. Usage: echo [message]");
             return false;
+        } else if (arg.length > 2 && !arg[1].equals(">")) {
+            return true;
         }
         return true;
     }

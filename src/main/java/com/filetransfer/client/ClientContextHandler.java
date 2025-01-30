@@ -137,6 +137,7 @@ public class ClientContextHandler implements ContextCommandHandler {
 
             case "echo":
                 if (ClientUtils.validadeEchoArg(command)) {
+
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.ECHO_FILE)
                             .addArg(command[1])
                             .build();

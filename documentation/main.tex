@@ -67,8 +67,7 @@ forma más sencilla y eficiente de implementar lo que se pide en estre trabajo.
 
 La estructura del proyecto se basa mayoritariamente alrededor de \textbf{la máquina de estados} que hemos
 diseñado para éste, siendo de gran importancia el contexto que tenga el programa en todo momento, ya sea
-cliente, servidor, o system, el contexto que tiene la máquina antes de poder pasar al contexto de cliente o
-servidor.
+cliente, servidor, o sistema. Con esta implementación, se ha conseguido que en la misma ejecución del programa se pueda pasar de cliente a servidor en un determinado momento si es que el usuario lo desea.
 %
 %    \begin{figure}[htb]
 %        \centering
@@ -95,12 +94,11 @@ servidor.
 \end{figure}
 
 
-Teniendo en cuenta la maquina de estados (funciona tal tal....), la estructura de archivos finalmente quedará
-organizada de la siguiente manera:
+Como podemos apreciar en la figura \ref{fig:main}, tras arrancar el programa estamos en el contexto de Sistema, éste puede pasar de un estado a otro en cualquier momento, sin permitir que el cliente pase a servidor de forma directa ya que esto conllevaría a graves errores.
+Por otro lado, la estructura de archivos finalmente quedará organizada de la siguiente manera:
 
 \newpage
-
-\textbf{FileSystem}
+\begin{figure}
 \dirtree{%
 	.1 .
 	.2 FileSystem.java.
@@ -133,14 +131,24 @@ organizada de la siguiente manera:
 	.3 ServerContextHandler.java.
 	.3 ServerMain.java.
 }
+\captionof{table}{Estructura de archivos del proyecto.}
+\end{figure}
 
-
-\chapter{filetransfer}
+\chapter{Filetransfer}
 \section{Uso del programa}
 varo
-\section{FileSystem.java}
 \section{Main.java}
+Main inicializa FileSystem.
+\section{FileSystem.java}
+FileSystem es la encargada de inicializarlo todo, la interfaz gráfica (si es que el usuario no ha puesto como argumento de entrada \texttt{--nogui} o le ha dado doble click al .jar), las carpetas de gestión de archivos y el config.yml, que permite al usuario dejar argumentos de carga preestablecidos, de tal forma que no tenga que escribirlos cada vez que quiera iniciar el programa, los argumentos que se pueden guardar son:
+Puerto de servidor, número máximo de conexiones que un servidor puede aceptar y dirección IP a la que el cliente se conectará.
+Y por último inicializa la lectura por consola.
 \section{SystemContextHandler.java}
+SystemContextHandler es el primer contexto que instancia el usuario al arrancar el programa. 
+Para ver los comandos disponibles hay que escribir en consola alguno de los siguientes comandos: 
+\texttt{?}, \texttt{--help} o \texttt{-h}, que devolverá por pantalla los comandos disponibles que son 
+en el contexto del sistema \texttt{--client} y \texttt{--server} con sus argumentos opcionales.
+
 
 \chapter{common}
 \section{CloseMessage.java}
@@ -160,6 +168,7 @@ Comandos disponibles:
 \end{itemize}
 
 \section{ConsoleGUI.java}
+\cite{console-output-to-textarea}
 \section{Const.java}
 \section{Context.java}
 \section{ContextCommandHandler.java}
@@ -267,4 +276,5 @@ El serverContextHandler hace función similar que el clientContextHandler, pero 
 dispositivo que actúa como servidor no tiene que enviar muchos comandos, por lo que tiene comandos basicos como
 --close o --help, para cerrar u obtener ayuda de los posibles comandos del servidor. No está pensado para interactuar mucho, su finalidad es recibir peticiones del cliente y procesarlas.
 
+\printbibliography
 \end{document}

@@ -16,5 +16,36 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{console-output-to-textarea}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=a8a8e39d6d8b2a67fc9ef61ca339c85e}{%
+           family={MadProgrammer},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{fullhash}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{fullhashraw}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{bibnamehash}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{authorbibnamehash}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{authornamehash}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{authorfullhash}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \strng{authorfullhashraw}{a8a8e39d6d8b2a67fc9ef61ca339c85e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{How to set output stream to TextArea}
+      \verb{urlraw}
+      \verb https://stackoverflow.com/questions/12945537/how-to-set-output-stream-to-textarea/12945678#12945678
+      \endverb
+      \verb{url}
+      \verb https://stackoverflow.com/questions/12945537/how-to-set-output-stream-to-textarea/12945678#12945678
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

@@ -151,12 +151,22 @@ public class ServerCommandProcess {
     }
 
     private String echoFile(Path path) {
-        Path filePath = path.resolve(cm.getArgs().get(0));
-        File file = filePath.toFile();
-        if (file.exists()) {
-            return file.getName();
-        } else {
-            return "File not found:";
+        try {
+            Path filePath = path.resolve(cm.getArgs().get(0));
+            if (!Files.exists(filePath)) {
+                return "File not found: " + filePath.getFileName();
+            }
+
+            if (!Files.isReadable(filePath)) {
+                return "Cannot read file: " + filePath.getFileName();
+            }
+
+            return Files.readString(filePath);
+
+        } catch (IOException e) {
+            return "Error reading file: " + e.getMessage();
+        } catch (IndexOutOfBoundsException e) {
+            return "No file specified";
         }
     }
 

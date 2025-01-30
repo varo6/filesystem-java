@@ -531,6 +531,11 @@ INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\spani
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\spanish.lbx
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\lbx\spanish.lbx
 OUTPUT main.bcf
+INPUT main.bbl
+INPUT .\main.bbl
+INPUT .\main.bbl
+INPUT .\main.bbl
+INPUT main.bbl
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex\latex\upquote\upquote.sty
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex\latex\upquote\upquote.sty
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
@@ -606,6 +611,9 @@ INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmcsc
 INPUT C:\Users\andrew\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-ec.enc
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr17.tfm
+INPUT .\main.toc
+INPUT .\main.toc
+INPUT main.toc
 OUTPUT main.toc
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
 INPUT .\resources\img\diagrama.png
@@ -621,6 +629,7 @@ INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex\latex\inconsolata\t1zi4.
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\tfm\public\inconsolata\t1-zi4r-0.tfm
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\inconsolata\i4-t1-0.enc
 INPUT main.aux
+INPUT main.run.xml
 OUTPUT main.run.xml
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\type1\public\inconsolata\Inconsolata-zi4r.pfb
 INPUT C:\Users\andrew\AppData\Local\Programs\MiKTeX\fonts\type1\public\inconsolata\Inconsolata-zi4r.pfb

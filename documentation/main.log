@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.23)  30 JAN 2025 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.23)  30 JAN 2025 20:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1372,7 +1372,10 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'spanish'.
- (main.aux)
+ (main.aux
+LaTeX Info: Redefining \. on input line 15.
+LaTeX Info: Redefining \% on input line 15.
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
@@ -1487,12 +1490,11 @@ Package biblatex Info: Automatic encoding selection.
 \openout3 = `main.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' not found.
-
-No file main.bbl.
+Package biblatex Info: ... file 'main.bbl' found.
+ (main.bbl)
 Package biblatex Info: Reference section=0 on input line 53.
 Package biblatex Info: Reference segment=0 on input line 53.
-(C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty
+ (C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
 )
 \c@lstlisting=\count577
@@ -1602,8 +1604,11 @@ Package microtype Info: Character `029' is missing
 [1
 
 
-{C:/Users/andrew/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./resources/pdf/logo.pdf>]
-No file main.toc.
+{C:/Users/andrew/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./resources/pdf/logo.pdf>] (main.toc
+LaTeX Info: Redefining \sptext on input line 1.
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
@@ -1614,181 +1619,31 @@ No file main.toc.
 
 ]
 Cap\'{\i }tulo 1.
-<resources/img/diagrama.png, id=24, 1077.27469pt x 387.69844pt>
+<resources/img/diagrama.png, id=86, 1077.27469pt x 387.69844pt>
 File: resources/img/diagrama.png Graphic file (type png)
 <use resources/img/diagrama.png>
-Package pdftex.def Info: resources/img/diagrama.png  used on input line 92.
-(pdftex.def)             Requested size: 215.45111pt x 77.5383pt.
+Package pdftex.def Info: resources/img/diagrama.png  used on input line 91.
+(pdftex.def)             Requested size: 430.90224pt x 155.07661pt.
 
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.101 \newpage
+l.100 \newpage
                [1
 
  <./resources/img/diagrama.png>]
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 135.
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 133.
  (C:\Users\andrew\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 11.39996pt on input line 135.
+(Font)              scaled to size 11.39996pt on input line 133.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 135--135
-[][]||[] 
- []
-
 
 
 [2{C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-t1-0.enc}]
@@ -1812,16 +1667,27 @@ Cap\'{\i }tulo 4.
 [6
 
 ]
+
+[7]
 Cap\'{\i }tulo 5.
 
 
-[7
+[8
 
 ]
 
-[8]
+[9]
 
-[9] (main.aux
+[10]
+Overfull \hbox (13.97667pt too wide) in paragraph at lines 280--280
+[]\T1/lmr/m/n/12 (-20) MadProgrammer. ^^S  How to set out-put stream to Tex-tA-rea^^T. \T1/lmr/m/sc/12 (-20) url\T1/lmr/m/n/12 (-20) : [][]$\T1/zi4/m/n/12 https : / / stackoverflow .
+ []
+
+
+
+[11
+
+] (main.aux
 LaTeX Info: Redefining \sptext on input line 15.
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
@@ -1830,34 +1696,22 @@ LaTeX Info: Redefining \% on input line 15.
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                main
-(biblatex)                and rerun LaTeX afterwards.
-
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57645 strings out of 473650
- 1289862 string characters out of 5717452
- 2229742 words of memory out of 5000000
- 79717 multiletter control sequences out of 15000+600000
- 624052 words of font info for 138 fonts, out of 8000000 for 9000
+ 57896 strings out of 473650
+ 1294945 string characters out of 5717452
+ 2231041 words of memory out of 5000000
+ 79939 multiletter control sequences out of 15000+600000
+ 624986 words of font info for 148 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 124i,12n,139p,1047b,1863s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 124i,12n,139p,1047b,1898s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb>
-Output written on main.pdf (11 pages, 224490 bytes).
+Output written on main.pdf (13 pages, 244437 bytes).
 PDF statistics:
- 230 PDF objects out of 1000 (max. 8388607)
- 44 named destinations out of 1000 (max. 500000)
+ 280 PDF objects out of 1000 (max. 8388607)
+ 49 named destinations out of 1000 (max. 500000)
  37647 words of extra memory for PDF output out of 42996 (max. 10000000)
 
