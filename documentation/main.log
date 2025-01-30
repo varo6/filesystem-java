@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.23)  30 JAN 2025 21:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.23)  30 JAN 2025 22:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1619,7 +1619,7 @@ LaTeX Info: Redefining \% on input line 1.
 
 ]
 Cap\'{\i }tulo 1.
-<resources/img/diagrama.png, id=84, 1077.27469pt x 387.69844pt>
+<resources/img/diagrama.png, id=80, 1077.27469pt x 387.69844pt>
 File: resources/img/diagrama.png Graphic file (type png)
 <use resources/img/diagrama.png>
 Package pdftex.def Info: resources/img/diagrama.png  used on input line 91.
@@ -1679,7 +1679,7 @@ Cap\'{\i }tulo 5.
 [9]
 
 [10]
-Overfull \hbox (13.97667pt too wide) in paragraph at lines 280--280
+Overfull \hbox (13.97667pt too wide) in paragraph at lines 286--286
 []\T1/lmr/m/n/12 (-20) MadProgrammer. ^^S  How to set out-put stream to Tex-tA-rea^^T. \T1/lmr/m/sc/12 (-20) url\T1/lmr/m/n/12 (-20) : [][]$\T1/zi4/m/n/12 https : / / stackoverflow .
  []
 
@@ -1701,17 +1701,17 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57887 strings out of 473650
- 1294839 string characters out of 5717452
- 2231041 words of memory out of 5000000
- 79929 multiletter control sequences out of 15000+600000
+ 57883 strings out of 473650
+ 1294803 string characters out of 5717452
+ 2230041 words of memory out of 5000000
+ 79927 multiletter control sequences out of 15000+600000
  625077 words of font info for 149 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  124i,12n,139p,1047b,1898s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb>
-Output written on main.pdf (13 pages, 243982 bytes).
+Output written on main.pdf (13 pages, 244265 bytes).
 PDF statistics:
- 274 PDF objects out of 1000 (max. 8388607)
- 48 named destinations out of 1000 (max. 500000)
- 37639 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 264 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 37623 words of extra memory for PDF output out of 42996 (max. 10000000)
 

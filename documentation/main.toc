@@ -15,9 +15,7 @@
 \contentsline {section}{\numberline {3.6}ContextManager.java}{5}{section.3.6}%
 \contentsline {section}{\numberline {3.7}ContextObserver.java}{5}{section.3.7}%
 \contentsline {section}{\numberline {3.8}Header.java}{5}{section.3.8}%
-\contentsline {section}{\numberline {3.9}TextMessage.java}{5}{section.3.9}%
-\contentsline {section}{\numberline {3.10}UserMessage.java}{5}{section.3.10}%
-\contentsline {section}{\numberline {3.11}Utils.java}{5}{section.3.11}%
+\contentsline {section}{\numberline {3.9}Utils.java}{5}{section.3.9}%
 \contentsline {chapter}{\numberline {4}client}{6}{chapter.4}%
 \contentsline {section}{\numberline {4.1}ClientMain.java}{6}{section.4.1}%
 \contentsline {section}{\numberline {4.2}SimpleClient.java}{6}{section.4.2}%

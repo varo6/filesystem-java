@@ -152,6 +152,7 @@ en el contexto del sistema \texttt{--client} y \texttt{--server} con sus argumen
 La carpeta common es la que contiene las clases que son compartidas por los 3 contextos. En ella podemos encontrar clases como los serializadores de objetos que son, el Header, CloseMessage,TextMessage y CommandMessage. También podemos encontrar las interfaces y constantes para gestionar los estados del programa entre otros.
 \section{CommandMessage.java}
 
+Es la clase encargada de crear todos los comandos y que además puedan esos comandos puedan construirse con argumentos y payload en el objeto desde la subclase Builder
 Comandos disponibles:
 
 \begin{itemize}
@@ -168,16 +169,21 @@ Comandos disponibles:
 \end{itemize}
 
 \section{ConsoleGUI.java}
-\cite{console-output-to-textarea}
+Se ha creado una interfaz gráfica opcional (si el usuario al arrancar el programa desde la consola con el argumento --nogui no se iniciará la consola) se encarga de redirigir simplemente todos los mensajes en consola al Textarea, la implementación ha sido inspirada y adaptada de Stackoverflow. \cite{console-output-to-textarea}
 \section{Const.java}
+En FileSystem, hay muchos valores que son constantes y se recurren muy amenudo, por lo que se ha decidido crear una clase estática que contenga todas las constantes que se usan en el programa.
 \section{Context.java}
+Es un enum que contiene los estados posibles del programa.
 \section{ContextCommandHandler.java}
+Una interfaz para todos los contextos que manejan comandos.
 \section{ContextManager.java}
+Es la clase encargada de gestionar los contextos, y poder alternar entre ellos sin problemas.
 \section{ContextObserver.java}
+Una interfaz necesaria principalmente para la consola gráfica la cual necesita ser notificada de los cambios de contexto.
 \section{Header.java}
-\section{TextMessage.java}
-\section{UserMessage.java}
+Es la clase que le da cabecera a todos los objetos serializables, en nuestro caso se ha quedado como vestigio por usar serialización automática.
 \section{Utils.java}
+Esta clase estaba destinada a tener métodos útiles, pero finalmente se ha empleado simplemente para obtener las direcciones IP tanto pública como privada del servidor.	
 
 \chapter{client}
 \section{ClientMain.java}
