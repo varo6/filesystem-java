@@ -16,11 +16,13 @@ public class CommandMessage extends Header implements Serializable {
     public enum CommandType {
         FILE_UPLOAD,
         FILE_DOWNLOAD,
+        FILE_RENAME,
         DIRECTORY_CREATE,
         DIRECTORY_LIST,
         DIRECTORY_LOCATION,
         FILE_DELETE,
         DIRECTORY_OPEN,
+        ECHO_FILE,
         CON_CHECK
     }
 
@@ -38,6 +40,8 @@ public class CommandMessage extends Header implements Serializable {
                 return "scp";
             case FILE_DOWNLOAD:
                 return "scp";
+            case FILE_RENAME:
+                return "rn";
             case DIRECTORY_LIST:
                 return "ls";
             case DIRECTORY_OPEN:
@@ -46,6 +50,8 @@ public class CommandMessage extends Header implements Serializable {
                 return "mkdir";
             case DIRECTORY_LOCATION:
                 return "pwd";
+            case ECHO_FILE:
+                return "echo";
             default:
                 return "Comando no reconocido";
         }

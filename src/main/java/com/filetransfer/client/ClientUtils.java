@@ -8,18 +8,18 @@ public class ClientUtils {
 
     public static boolean validateScpArg(String[] command) {
         if (command.length < 3) {
-            System.out.println("Uso: scp -u/-d <origen> <destino>");
+            System.out.println("Usage: scp -u/-d <source> <destination>");
             return false;
         }
         if (!command[1].equals("-u") && !command[1].equals("-d")) {
-            System.out.println("Opción no válida. Use -u para subir o -d para descargar");
+            System.out.println("Operation not supported. Use -u to upload or -d to download");
             return false;
         }
         // Para upload (-u): El archivo local (origen) debe existir
         if (command[1].equals("-u")) {
             Path localPath = Paths.get("FileSystem/storage").resolve(command[2]);
             if (!Files.exists(localPath)) {
-                System.out.println("Error: El archivo local no existe: " + command[2]);
+                System.out.println("Error: Local file does not exist: " + command[2]);
                 return false;
             }
         }
@@ -35,6 +35,23 @@ public class ClientUtils {
             return false;
         }
 
+        return true;
+    }
+
+    public static boolean validateRnArg(String[] arg) {
+
+        if (arg.length != 3) {
+            System.out.println("Invalid command. Usage: rn <current> <new>");
+            return false;
+        }
+
+        return true;
+    }
+    public static boolean validadeEchoArg(String[] arg) {
+        if (arg.length < 2) {
+            System.out.println("Invalid command. Usage: echo [message]");
+            return false;
+        }
         return true;
     }
     public static boolean validateLsArg(String[] arg) {

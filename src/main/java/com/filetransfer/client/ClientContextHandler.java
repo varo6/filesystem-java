@@ -125,6 +125,25 @@ public class ClientContextHandler implements ContextCommandHandler {
                 }
                 else { return false; }
 
+            case "rn":
+                if (ClientUtils.validateRnArg(command)) {
+                    commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.FILE_RENAME)
+                            .addArg(command[1])
+                            .addArg(command[2])
+                            .build();
+                    break;
+                }
+                else { return false; }
+
+            case "echo":
+                if (ClientUtils.validadeEchoArg(command)) {
+                    commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.ECHO_FILE)
+                            .addArg(command[1])
+                            .build();
+                    break;
+                }
+                else { return false; }
+
             case "ccheck":
                 if (ClientUtils.validateCheckConArg(command)) {
                     commandMessage = new CommandMessage.Builder(CommandMessage.CommandType.CON_CHECK)
@@ -146,6 +165,18 @@ public class ClientContextHandler implements ContextCommandHandler {
 
     @Override
     public List<String> getAvailableCommands() {
-        return Arrays.asList("--close", "--help", "?");
+        return Arrays.asList(
+                "--close",
+                "help",
+                "?",
+                "scp -u/-d <origen> <destino>",
+                "ls/dir",
+                "mkdir <directorio>",
+                "pwd",
+                "cd <ruta>",
+                "rm <archivo>",
+                "rn <actual> <nuevo>",
+                "ccheck <parametro>"
+        );
     }
 }

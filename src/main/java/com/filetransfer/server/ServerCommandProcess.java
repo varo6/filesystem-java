@@ -2,6 +2,7 @@ package com.filetransfer.server;
 
 import com.filetransfer.common.CommandMessage;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -27,6 +28,8 @@ public class ServerCommandProcess {
         commandHandlers.put(CommandMessage.CommandType.DIRECTORY_LOCATION, this::directoryLocation);
         commandHandlers.put(CommandMessage.CommandType.FILE_DELETE, this::fileDelete);
         commandHandlers.put(CommandMessage.CommandType.DIRECTORY_OPEN, this::directoryOpen);
+        commandHandlers.put(CommandMessage.CommandType.FILE_RENAME, this::fileRename);
+        commandHandlers.put(CommandMessage.CommandType.ECHO_FILE, this::echoFile);
     }
 
     public String processCommand(CommandMessage cm, Path basePath) {
@@ -36,12 +39,12 @@ public class ServerCommandProcess {
         if (handler != null) {
             return handler.apply(fullPath);
         } else {
-            return "Comando no reconocido";
+            return "Command not recognized";
         }
     }
 
     private String conCheck(Path path) {
-        return "Conexión con el cliente funcionando correctamente";
+        return "Connection check successful";
     }
 
     private String fileUpload(Path path) {
@@ -53,9 +56,9 @@ public class ServerCommandProcess {
             Files.createDirectories(fullPath.getParent());
 
             Files.write(fullPath, fileContent);
-            return "Archivo subido exitosamente a: " + fullPath;
+            return "File uploaded successfully: " + fullPath;
         } catch (IOException e) {
-            return "Error al subir el archivo: " + e.getMessage();
+            return "Failed to upload file: " + e.getMessage();
         }
     }
 
@@ -65,7 +68,7 @@ public class ServerCommandProcess {
             Path fullPath = path.resolve(remotePath);
 
             if (!Files.exists(fullPath)) {
-                return "[Error]: El archivo no existe en el servidor";
+                return "[Error]: File not found";
             }
 
             byte[] fileContent = Files.readAllBytes(fullPath);
@@ -73,22 +76,22 @@ public class ServerCommandProcess {
                     .addArg("file")
                     .setPayload(fileContent)
                     .build();
-            return "Archivo encontrado y listo para descargar";
+            return "File found and ready to download";
         } catch (IOException e) {
-            return "Error al leer el archivo: " + e.getMessage();
+            return "Failed to read file: " + e.getMessage();
         }
     }
 
     private String directoryCreate(Path path) {
         Path newDir = path.resolve(cm.getArgs().get(0));
         if (Files.exists(newDir)) {
-            return "El directorio ya existe: " + newDir.toString();
+            return "Directory already exists: " + newDir.toString();
         } else {
             try {
                 Files.createDirectories(newDir);
-                return "Directorio creado en: " + newDir.toString();
+                return "Directory created in: " + newDir.toString();
             } catch (IOException e) {
-                return "Error al crear el directorio: " + e.getMessage();
+                return "Failed to create directory: " + e.getMessage();
             }
         }
     }
@@ -108,14 +111,14 @@ public class ServerCommandProcess {
                         .map(Path::toString)
                         .collect(Collectors.joining("\n"));
             }
-        return "Listando directorio: " + path.toString() + "\n" + result;
+        return "Listing directories: " + path.toString() + "\n" + result;
         } catch (IOException e) {
-            return "Error al listar el directorio: " + e.getMessage();
+            return "Failed listing: " + e.getMessage();
         }
     }
 
     private String directoryLocation(Path path) {
-        return "Localización del directorio: \n" + path.toString();
+        return "File localization: \n" + path.toString();
     }
 
     private String fileDelete(Path path) {
@@ -123,13 +126,38 @@ public class ServerCommandProcess {
         try {
             if (Files.exists(file)) {
                 Files.delete(file);
-                return "Archivo" + cm.getArgs().get(0) + "borrado en: " + path.toString();
+                return "File " + cm.getArgs().get(0) + "successfully deleted: " + path.toString();
             } else {
-                return "Error: El archivo no existe en " + path.toString();
+                return "Error: File does not exist " + path.toString();
             }
         } catch (IOException e) {
-            return "Error al borrar el archivo: " + e.getMessage();
+            return "Failed deleting file " + e.getMessage();
             }
+    }
+
+    private String fileRename(Path path) {
+        Path oldFile = path.resolve(cm.getArgs().get(0));
+        Path newFile = path.resolve(cm.getArgs().get(1));
+        try {
+            if (Files.exists(oldFile)) {
+                Files.move(oldFile, newFile);
+                return "Renamed file " + oldFile + " to " + newFile;
+            } else {
+                return "Error: File does not exist " + path.toString();
+            }
+        } catch (IOException e) {
+            return "Failed to rename file: " + e.getMessage();
+        }
+    }
+
+    private String echoFile(Path path) {
+        Path filePath = path.resolve(cm.getArgs().get(0));
+        File file = filePath.toFile();
+        if (file.exists()) {
+            return file.getName();
+        } else {
+            return "File not found:";
+        }
     }
 
     private String directoryOpen(Path path) {
@@ -138,23 +166,23 @@ public class ServerCommandProcess {
         switch (arg) {
             case "..":
                 if (clientPath.toString().isEmpty()) {
-                    return "Estás en la raíz del proyecto. No se puede subir más.";
+                    return "Already in root directory.";
                 } else {
                     clientPath = clientPath.getParent();
                     if (clientPath==null){clientPath = Paths.get("");}
 
-                    return "Subiendo un nivel de carpeta. Nueva ruta: " + clientPath;
+                    return "New path: " + clientPath;
                 }
             case ".":
-                return "Permaneciendo en el directorio actual: " + clientPath;
+                return "Remaining in current directory" + clientPath;
             default:
                 // Manejar otros casos (por ejemplo, cambiar a un directorio específico)
                 path = path.resolve(arg);
                 if (Files.isDirectory(path)) {
                     this.clientPath = clientPath.resolve(arg);
-                    return "Cambiando al directorio: " + clientPath;
+                    return "Changing directory: " + clientPath;
                 } else {
-                    return "La ruta especificada no es un directorio válido.";
+                    return "Specific route not found.";
                 }
         }
     }
