@@ -110,7 +110,6 @@ Por otro lado, la estructura de archivos finalmente quedará organizada de la si
 	.3 ClientUtils.java.
 	.3 SimpleClient.java.
 	.2 common.
-	.3 CloseMessage.java.
 	.3 CommandMessage.java.
 	.3 ConsoleGUI.java.
 	.3 Const.java.
@@ -119,8 +118,6 @@ Por otro lado, la estructura de archivos finalmente quedará organizada de la si
 	.3 ContextManager.java.
 	.3 ContextObserver.java.
 	.3 Header.java.
-	.3 TextMessage.java.
-	.3 UserMessage.java.
 	.3 Utils.java.
 	.2 META-INF.
 	.3 MANIFEST.MF.
@@ -151,7 +148,8 @@ en el contexto del sistema \texttt{--client} y \texttt{--server} con sus argumen
 
 
 \chapter{common}
-\section{CloseMessage.java}
+
+La carpeta common es la que contiene las clases que son compartidas por los 3 contextos. En ella podemos encontrar clases como los serializadores de objetos que son, el Header, CloseMessage,TextMessage y CommandMessage. También podemos encontrar las interfaces y constantes para gestionar los estados del programa entre otros.
 \section{CommandMessage.java}
 
 Comandos disponibles:
@@ -159,11 +157,13 @@ Comandos disponibles:
 \begin{itemize}
 	\item \texttt{FILE\_UPLOAD}
 	\item \texttt{FILE\_DOWNLOAD}
+	\item \texttt{FILE\_RENAME}
 	\item \texttt{DIRECTORY\_CREATE}
 	\item \texttt{DIRECTORY\_LIST}
 	\item \texttt{DIRECTORY\_LOCATION}
 	\item \texttt{FILE\_DELETE}
 	\item \texttt{DIRECTORY\_OPEN}
+	\item \texttt{ECHO\_FILE}
 	\item \texttt{CON\_CHECK}
 \end{itemize}
 
