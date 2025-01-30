@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.23)  30 JAN 2025 22:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.23)  30 JAN 2025 22:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1681,11 +1681,16 @@ Cap\'{\i }tulo 5.
 [10]
 Cap\'{\i }tulo 6.
 
+Overfull \hbox (21.61534pt too wide) in paragraph at lines 298--299
+[]\T1/lmr/m/n/12 (-20) Si se de-sea, hay un ser-vi-dor de prue-ba es-cu-chan-do pe-ti-cio-nes en la di-rec-ción IP: 84.126.4.212:4999
+ []
+
+
 
 [11
 
 ]
-Overfull \hbox (13.97667pt too wide) in paragraph at lines 300--300
+Overfull \hbox (13.97667pt too wide) in paragraph at lines 301--301
 []\T1/lmr/m/n/12 (-20) MadProgrammer. ^^S  How to set out-put stream to Tex-tA-rea^^T. \T1/lmr/m/sc/12 (-20) url\T1/lmr/m/n/12 (-20) : [][]$\T1/zi4/m/n/12 https : / / stackoverflow .
  []
 
@@ -1715,7 +1720,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  124i,12n,139p,1047b,1898s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/andrew/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb>
-Output written on main.pdf (14 pages, 246888 bytes).
+Output written on main.pdf (14 pages, 247010 bytes).
 PDF statistics:
  273 PDF objects out of 1000 (max. 8388607)
  48 named destinations out of 1000 (max. 500000)
