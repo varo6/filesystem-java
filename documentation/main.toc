@@ -1,30 +1,29 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Estructura del proyecto}{1}{section.1.1}%
-\contentsline {chapter}{\numberline {2}Filetransfer}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Uso del programa}{3}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Main.java}{3}{section.2.2}%
-\contentsline {section}{\numberline {2.3}FileSystem.java}{3}{section.2.3}%
-\contentsline {section}{\numberline {2.4}SystemContextHandler.java}{3}{section.2.4}%
-\contentsline {chapter}{\numberline {3}common}{4}{chapter.3}%
-\contentsline {section}{\numberline {3.1}CommandMessage.java}{4}{section.3.1}%
-\contentsline {section}{\numberline {3.2}ConsoleGUI.java}{4}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Const.java}{5}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Context.java}{5}{section.3.4}%
-\contentsline {section}{\numberline {3.5}ContextCommandHandler.java}{5}{section.3.5}%
-\contentsline {section}{\numberline {3.6}ContextManager.java}{5}{section.3.6}%
-\contentsline {section}{\numberline {3.7}ContextObserver.java}{5}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Header.java}{5}{section.3.8}%
-\contentsline {section}{\numberline {3.9}Utils.java}{5}{section.3.9}%
-\contentsline {chapter}{\numberline {4}Client}{6}{chapter.4}%
-\contentsline {section}{\numberline {4.1}ClientMain.java}{6}{section.4.1}%
-\contentsline {section}{\numberline {4.2}SimpleClient.java}{6}{section.4.2}%
-\contentsline {section}{\numberline {4.3}ClientContextHandler.java}{7}{section.4.3}%
-\contentsline {section}{\numberline {4.4}ClientUtils.java}{7}{section.4.4}%
-\contentsline {chapter}{\numberline {5}server}{8}{chapter.5}%
-\contentsline {section}{\numberline {5.1}ServerMain.java}{8}{section.5.1}%
-\contentsline {section}{\numberline {5.2}ConcurrentServer.java}{8}{section.5.2}%
-\contentsline {section}{\numberline {5.3}SimpleServer.java}{9}{section.5.3}%
-\contentsline {section}{\numberline {5.4}ServerCommandProcess.java}{9}{section.5.4}%
-\contentsline {section}{\numberline {5.5}ServerContextHandler.java}{9}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Guía de uso}{11}{chapter.6}%
+\contentsline {chapter}{\numberline {2}Guía de uso}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Filetransfer}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Main.java}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}FileSystem.java}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.3}SystemContextHandler.java}{5}{section.3.3}%
+\contentsline {chapter}{\numberline {4}common}{6}{chapter.4}%
+\contentsline {section}{\numberline {4.1}CommandMessage.java}{6}{section.4.1}%
+\contentsline {section}{\numberline {4.2}ConsoleGUI.java}{6}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Const.java}{7}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Context.java}{7}{section.4.4}%
+\contentsline {section}{\numberline {4.5}ContextCommandHandler.java}{7}{section.4.5}%
+\contentsline {section}{\numberline {4.6}ContextManager.java}{7}{section.4.6}%
+\contentsline {section}{\numberline {4.7}ContextObserver.java}{7}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Header.java}{7}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Utils.java}{7}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Client}{8}{chapter.5}%
+\contentsline {section}{\numberline {5.1}ClientMain.java}{8}{section.5.1}%
+\contentsline {section}{\numberline {5.2}SimpleClient.java}{8}{section.5.2}%
+\contentsline {section}{\numberline {5.3}ClientContextHandler.java}{9}{section.5.3}%
+\contentsline {section}{\numberline {5.4}ClientUtils.java}{9}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Server}{10}{chapter.6}%
+\contentsline {section}{\numberline {6.1}ServerMain.java}{10}{section.6.1}%
+\contentsline {section}{\numberline {6.2}ConcurrentServer.java}{10}{section.6.2}%
+\contentsline {section}{\numberline {6.3}SimpleServer.java}{11}{section.6.3}%
+\contentsline {section}{\numberline {6.4}ServerCommandProcess.java}{11}{section.6.4}%
+\contentsline {section}{\numberline {6.5}ServerContextHandler.java}{11}{section.6.5}%

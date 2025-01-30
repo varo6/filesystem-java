@@ -83,12 +83,9 @@ public class SystemContextHandler implements ContextCommandHandler {
                 return true;
 
             case "--exit":
-                /**
-                 * Implementar la lógica para terminar la ventana
-                 * */
                 System.out.println("Closing program.");
                 manager.stopActiveThread();
-
+                System.exit(0);
                 return true;
 
             default:

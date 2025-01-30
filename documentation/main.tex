@@ -131,15 +131,22 @@ Por otro lado, la estructura de archivos finalmente quedará organizada de la si
 \captionof{table}{Estructura de archivos del proyecto.}
 \end{figure}
 
-\chapter{Filetransfer}
-\section{Uso del programa}
+\chapter{Guía de uso}
+En el comprimido se incluirá un archivo .jar y además el código fuente del proyecto. Se puede ejecutar de las dos maneras.
 
-Para poder utilizar el programa, se debe ejecutar el archivo compilado con Gradle \textbf{FileSystem.jar}
-mediante la terminal de comandos. Se debe ejecutar el comando \textbf{java -jar FileSystem.jar}. Tras ejecutar
-el archivo, se mostrará una interfaz gráfica que simula una ventana de comandos. En este momento el usuario
-estará en el contexto del sistema, a la espera de recibir un comando, el cual puede ser \textbf{--server} si se
-quiere iniciar como servidor, o \textbf{--client} si se quiere una de cliente.
+Para poder ejecutar el programa hay que asegurarse de tener la versión de Java 21 instalada y es recomendable para probar el funcionamiento el tener 2 archivos funcionando en carpetas diferentes, ya que el programa requiere de tener un directorio \texttt{servidor} independiente al del \texttt{cliente}.
+Se debería hacer una copia del
+.jar para el cliente, y en otra carpeta distinta, situar el .jar del servidor.
 
+Para ejecutar el programa desde el ejecutable .jar, bastará con darle doble click o si se desea, desde la consola se puede introducir el siguiente comando:
+
+\texttt{\textgreater\textgreater java -jar filetransfer.jar --nogui}
+
+Siendo --nogui un argumento opcional.
+Al ejecutar el programa por primera vez, se creará una carpeta FileSystem y en ella contiene otra "storage".
+Esta carpetas son los directorios raíces remotos y locales respectivamente.
+
+Si se quiere arrancar un cliente basta con introducir --client en la entrada de la consola y para el servidor --server.
 Comandos disponibles por parte del cliente:
 
 \begin{itemize}
@@ -155,6 +162,18 @@ Comandos disponibles por parte del cliente:
 	\item \textbf{--close}: Salir del programa.
 	\item \textbf{help / ?}: Mostrar la ayuda.
 \end{itemize}
+
+Por último, si se desea usar otros valores por defecto, el archivo config.yml permite que se pueda inicializar el puerto, número máximo de conexiones y el host remoto, de tal forma que no haga falta introducirla manualmente por cada ejecución.
+\begin{itemize}
+	\item \textbf{port}: Puerto del servidor.(Int)
+	\item \textbf{max-connections}: Número máximo de conexiones que el servidor puede aceptar.(Int)
+	\item \textbf{client-default-server-ip}: Dirección IP a la que el cliente se conectará.(String)
+
+\end{itemize}
+Si se desea, hay un servidor de prueba escuchando peticiones en la dirección IP: 84.126.4.212:4999 para poder comprobar el funcionamiento remoto.
+
+
+\chapter{Filetransfer}
 
 \section{Main.java}
 Main inicializa FileSystem.
@@ -245,7 +264,7 @@ ClientUtils contiene todas las validaciones que se comentan anteriormente. No se
 constructor y atributos, sino que se utilizarán las funciones de validación que contiene.
 
 
-\chapter{server}
+\chapter{Server}
 
 \section{ServerMain.java}
 
@@ -316,21 +335,6 @@ Cada función opera de forma distinta, según el comando, aunque la mayoría son
 El serverContextHandler hace función similar que el clientContextHandler, pero en menor medida, ya que el
 dispositivo que actúa como servidor no tiene que enviar muchos comandos, por lo que tiene comandos basicos como
 --close o --help, para cerrar u obtener ayuda de los posibles comandos del servidor. No está pensado para interactuar mucho, su finalidad es recibir peticiones del cliente y procesarlas.
-
-\chapter{Guía de uso}
-En el comprimido se incluirá un archivo .jar y además el código fuente del proyecto. Se puede ejecutar de las dos maneras.
-
-Para poder ejecutar el programa hay que asegurarse de tener la versión de Java 21 instalada y es recomendable para probar el funcionamiento el tener 2 archivos funcionando en carpetas diferentes, ya que el programa requiere de tener un directorio \texttt{servidor} independiente al del \texttt{cliente}.
-
-Para ejecutar el programa desde el ejecutable .jar, bastará con darle doble click o si se desea, desde la consola se puede introducir el siguiente comando:
-
-\texttt{\textgreater\textgreater java -jar filetransfer.jar --nogui}
-
-Siendo --nogui un argumento opcional.
-Al ejecutar el programa por primera vez, se creará una carpeta "FileSystem" y en ella contiene otra "storage".
-Esta carpetas son los directorios raíces remotos y locales respectivamente.
-
-Si se desea, hay un servidor de prueba escuchando peticiones en la dirección IP: 84.126.4.212:4999 para poder comprobar el funcionamiento remoto.
 
 \printbibliography
 
