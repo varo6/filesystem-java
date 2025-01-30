@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandMessage extends Header implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     protected int type;
     protected List<String> args;

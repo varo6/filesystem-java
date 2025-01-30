@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 
 public class Header implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected int type;
     protected int length;
 
